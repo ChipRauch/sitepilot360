@@ -1193,7 +1193,7 @@
         SitePilot360 is currently in development. We're looking for a small number of construction teams to partner with for our initial deployment. If you're tired of being blind between site visits, let's talk.
       </p>
     </div>
-    <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+    <form class="contact-form reveal" action="https://formspree.io/f/mdawjbew" method="POST" onsubmit="handleSubmit(event)">
       <div class="form-row">
         <input type="text" class="form-input" placeholder="Your Name" required>
         <input type="email" class="form-input" placeholder="Email Address" required>
@@ -1236,10 +1236,25 @@
   reveals.forEach(el => observer.observe(el));
 
   // Form submit
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    document.querySelector('.contact-form').style.display = 'none';
-    document.getElementById('form-success').style.display = 'block';
+    const form = e.target;
+    const data = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        form.style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        alert('Oops! Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      alert('Oops! Something went wrong. Please try again.');
+    }
   }
 </script>
 </body>
