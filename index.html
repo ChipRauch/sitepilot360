@@ -1195,14 +1195,14 @@
     </div>
     <form class="contact-form reveal" action="https://formspree.io/f/mdawjbew" method="POST" onsubmit="handleSubmit(event)">
       <div class="form-row">
-        <input type="text" class="form-input" placeholder="Your Name" required>
-        <input type="email" class="form-input" placeholder="Email Address" required>
+        <input type="text" name="name" class="form-input" placeholder="Your Name" required>
+        <input type="email" name="email" class="form-input" placeholder="Email Address" required>
       </div>
       <div class="form-row">
-        <input type="text" class="form-input" placeholder="Company Name">
-        <input type="text" class="form-input" placeholder="Number of Active Projects">
+        <input type="text" name="company" class="form-input" placeholder="Company Name">
+        <input type="text" name="active_projects" class="form-input" placeholder="Number of Active Projects">
       </div>
-      <textarea class="form-input" placeholder="Tell us about your biggest jobsite visibility challenge..."></textarea>
+      <textarea name="message" class="form-input" placeholder="Tell us about your biggest jobsite visibility challenge..."></textarea>
       <button type="submit" class="form-submit">Request Early Access</button>
     </form>
     <div id="form-success" style="display:none; text-align:center; padding: 40px 0;">
