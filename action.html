@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>See It In Action — SitePilot360</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2340;
+    --navy-dark: #111827;
+    --navy-mid: #1e2d4a;
+    --orange: #e8601a;
+    --orange-light: #f07a3a;
+    --orange-dim: rgba(232, 96, 26, 0.15);
+    --white: #ffffff;
+    --off-white: #f0ede8;
+    --gray: #8a9ab5;
+    --gray-light: #c8d0dc;
+    --border: rgba(138, 154, 181, 0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--navy-dark);
+    color: var(--off-white);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 40px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon { width: 42px; height: 42px; }
+
+  .nav-logo-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+
+  .nav-logo-text span { color: var(--orange); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .nav-link {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gray-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-link:hover { color: var(--white); }
+  .nav-link.active { color: var(--orange); }
+
+  .nav-cta {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    padding: 9px 20px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--orange); color: var(--white); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 140px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(138,154,181,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(138,154,181,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .page-header-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+  }
+
+  .eyebrow {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .page-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(44px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+
+  .page-title .accent { color: var(--orange); }
+
+  .page-desc {
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray-light);
+    max-width: 560px;
+  }
+
+  /* ── SECTIONS ── */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  .demo-section {
+    margin-bottom: 80px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .demo-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .section-tag {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .demo-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .demo-desc {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--gray-light);
+    max-width: 620px;
+    margin-bottom: 40px;
+  }
+
+  /* ── UI MOCKUP CONTAINER ── */
+  .mockup-container {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mockup-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--orange), transparent);
+  }
+
+  /* ── APP UI ── */
+  .app {
+    background: #0d1520;
+    border-radius: 6px;
+    overflow: hidden;
+    width: 100%;
+    border: 0.5px solid rgba(255,255,255,0.1);
+  }
+
+  .topbar {
+    background: #111d2e;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+
+  .app-logo { font-size: 13px; font-weight: 500; color: #fff; letter-spacing: 0.05em; font-family: 'Barlow Condensed', sans-serif; }
+  .app-logo span { color: #e8601a; }
+
+  .status-bar { display: flex; align-items: center; gap: 16px; }
+
+  .status-pill {
+    font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500;
+    display: flex; align-items: center; gap: 5px; font-family: 'Roboto Mono', monospace;
+  }
+  .status-pill.online { background: rgba(29,158,117,0.15); color: #1D9E75; border: 0.5px solid rgba(29,158,117,0.3); }
+  .status-pill.flying { background: rgba(232,96,26,0.15); color: #e8601a; border: 0.5px solid rgba(232,96,26,0.3); }
+
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: blink 1.5s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .main { display: grid; grid-template-columns: 1fr 280px; height: 460px; }
+
+  .floor-panel {
+    position: relative;
+    border-right: 0.5px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    background: #0d1520;
+  }
+
+  .panel-label {
+    position: absolute; top: 12px; left: 14px;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); z-index: 10; font-weight: 500;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  .floor-svg { width: 100%; height: 100%; }
+
+  .right-panel { display: flex; flex-direction: column; background: #111d2e; }
+
+  .live-feed {
+    position: relative; flex: 1; background: #080f18;
+    overflow: hidden; border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+
+  .feed-label {
+    position: absolute; top: 10px; left: 12px;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.35); z-index: 10; font-weight: 500;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  .live-badge {
+    position: absolute; top: 10px; right: 12px;
+    font-size: 10px; font-weight: 500; color: #e8601a; z-index: 10;
+    display: flex; align-items: center; gap: 4px;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  .feed-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(232,96,26,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(232,96,26,0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .scan-line-feed {
+    position: absolute; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,96,26,0.6), transparent);
+    animation: scan-feed 3s ease-in-out infinite; z-index: 5;
+  }
+  @keyframes scan-feed { 0%{top:30%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{top:80%;opacity:0} }
+
+  .crosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 6; }
+  .crosshair svg { width: 48px; height: 48px; animation: pulse-cross 2s ease-in-out infinite; }
+  @keyframes pulse-cross { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
+
+  .controls-panel { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+
+  .ctrl-label {
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.3); font-weight: 500; margin-bottom: 2px;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+  .ctrl-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+
+  .ctrl-btn {
+    background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 8px 4px; color: rgba(255,255,255,0.6);
+    font-size: 18px; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: all 0.15s;
+  }
+  .ctrl-btn:hover { background: rgba(232,96,26,0.15); border-color: rgba(232,96,26,0.4); color: #e8601a; }
+  .ctrl-btn.center { background: rgba(232,96,26,0.1); border-color: rgba(232,96,26,0.3); color: #e8601a; font-size: 12px; font-weight: 500; font-family: 'Roboto Mono', monospace; }
+
+  .telemetry { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+  .telem-card {
+    background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 8px 10px;
+  }
+  .telem-label { font-size: 10px; color: rgba(255,255,255,0.3); margin-bottom: 3px; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Roboto Mono', monospace; }
+  .telem-val { font-size: 15px; font-weight: 500; color: #fff; font-family: 'Roboto Mono', monospace; }
+  .telem-val.orange { color: #e8601a; }
+  .telem-val.green { color: #1D9E75; }
+
+  .bottombar {
+    background: #111d2e; border-top: 0.5px solid rgba(255,255,255,0.08);
+    padding: 8px 16px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .mission-info { font-size: 11px; color: rgba(255,255,255,0.4); font-family: 'Roboto Mono', monospace; }
+  .mission-info span { color: #e8601a; }
+
+  .abort-btn {
+    font-size: 11px; font-weight: 500; color: #e8601a;
+    background: rgba(232,96,26,0.1); border: 0.5px solid rgba(232,96,26,0.3);
+    border-radius: 4px; padding: 5px 14px; cursor: pointer;
+    letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Roboto Mono', monospace;
+    transition: all 0.15s;
+  }
+  .abort-btn:hover { background: rgba(232,96,26,0.25); }
+
+  /* ── CALLOUT POINTS ── */
+  .callouts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+    margin-top: 24px;
+  }
+
+  .callout {
+    background: rgba(26,35,64,0.5);
+    padding: 24px;
+    border-left: 2px solid var(--orange);
+  }
+
+  .callout-num {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .callout-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .callout-desc {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray);
+  }
+
+  /* ── COMING SOON CARD ── */
+  .coming-soon {
+    background: rgba(26,35,64,0.4);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .coming-soon::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  }
+
+  .coming-soon-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    display: block;
+    opacity: 0.4;
+  }
+
+  .coming-soon-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+
+  .coming-soon-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 400px;
+    margin: 0 auto 24px;
+  }
+
+  .notify-link {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    border: 1px solid var(--orange);
+    padding: 10px 24px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .notify-link:hover { background: var(--orange); color: var(--white); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px;
+    background: var(--navy-dark);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--orange); }
+  .footer-copy { font-size: 12px; color: var(--gray); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-link { display: none; }
+    .page-header { padding: 120px 20px 40px; }
+    .content { padding: 0 20px 60px; }
+    .mockup-container { padding: 16px; }
+    .main { grid-template-columns: 1fr; height: auto; }
+    .right-panel { display: none; }
+    .floor-panel { height: 360px; }
+    footer { padding: 30px 20px; flex-direction: column; text-align: center; }
+    .coming-soon { padding: 40px 20px; }
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg class="nav-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/>
+      <circle cx="50" cy="50" r="38" stroke="#8a9ab5" stroke-width="0.5" opacity="0.2"/>
+      <line x1="50" y1="50" x2="22" y2="22" stroke="#1a2340" stroke-width="6"/>
+      <line x1="50" y1="50" x2="78" y2="22" stroke="#1a2340" stroke-width="6"/>
+      <line x1="50" y1="50" x2="22" y2="78" stroke="#1a2340" stroke-width="6"/>
+      <line x1="50" y1="50" x2="78" y2="78" stroke="#1a2340" stroke-width="6"/>
+      <circle cx="22" cy="22" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
+      <circle cx="78" cy="22" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
+      <circle cx="22" cy="78" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
+      <circle cx="78" cy="78" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
+      <ellipse cx="22" cy="22" rx="10" ry="3" fill="#e8601a" transform="rotate(-45 22 22)"/>
+      <ellipse cx="78" cy="22" rx="10" ry="3" fill="#e8601a" transform="rotate(45 78 22)"/>
+      <ellipse cx="22" cy="78" rx="10" ry="3" fill="#e8601a" transform="rotate(45 22 78)"/>
+      <ellipse cx="78" cy="78" rx="10" ry="3" fill="#e8601a" transform="rotate(-45 78 78)"/>
+      <polygon points="50,28 54,50 50,72 46,50" fill="#1a2340"/>
+      <polygon points="50,28 54,50 50,44 46,50" fill="#8a9ab5"/>
+      <circle cx="50" cy="50" r="5" fill="#e8601a"/>
+    </svg>
+    <span class="nav-logo-text">SitePilot<span>360</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="action.html" class="nav-link active">See It In Action</a>
+    <a href="index.html#contact" class="nav-cta">Request Early Access</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-grid"></div>
+  <div class="page-header-content">
+    <div class="eyebrow">See It In Action</div>
+    <h1 class="page-title">The Product.<br><span class="accent">Before It's Built.</span></h1>
+    <p class="page-desc">
+      This is what SitePilot360 looks like in operation — autonomous indoor drone inspection, live video feed, and floor plan navigation from any device. No pilot required.
+    </p>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- SECTION 1: Interactive UI Mockup -->
+  <div class="demo-section reveal">
+    <div class="section-tag">Interactive Demo</div>
+    <h2 class="demo-title">The Operator Interface</h2>
+    <p class="demo-desc">
+      This is the SitePilot360 platform UI. A superintendent taps any point on the floor plan — the drone navigates there autonomously through corridors and doorways, streaming live video to their screen in real time. No joystick. No training. Just tap and see.
+    </p>
+
+    <div class="mockup-container">
+      <div class="app">
+        <div class="topbar">
+          <div class="app-logo">SitePilot<span>360</span></div>
+          <div class="status-bar">
+            <div class="status-pill online"><div class="dot"></div>System online</div>
+            <div class="status-pill flying"><div class="dot"></div>Mission active</div>
+          </div>
+        </div>
+
+        <div class="main">
+          <div class="floor-panel">
+            <div class="panel-label">Floor plan — Level 2</div>
+            <svg class="floor-svg" viewBox="0 0 480 460" xmlns="http://www.w3.org/2000/svg" id="floorSvg">
+              <defs>
+                <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="480" height="460" fill="url(#grid2)"/>
+              <rect x="40" y="60" width="400" height="340" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="200" y1="60" x2="200" y2="130" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="200" y1="160" x2="200" y2="280" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="200" y1="310" x2="200" y2="400" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="310" y1="60" x2="310" y2="110" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="310" y1="140" x2="310" y2="280" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="310" y1="310" x2="310" y2="400" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <line x1="310" y1="210" x2="440" y2="210" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <path d="M 200 130 A 30 30 0 0 0 170 160" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
+              <path d="M 200 310 A 30 30 0 0 1 170 280" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
+              <path d="M 310 110 A 30 30 0 0 1 340 140" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
+              <path d="M 310 310 A 30 30 0 0 0 340 280" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
+              <rect x="41" y="61" width="158" height="138" fill="rgba(26,35,64,0.3)"/>
+              <rect x="41" y="201" width="158" height="198" fill="rgba(26,35,64,0.3)"/>
+              <rect x="201" y="61" width="108" height="338" fill="rgba(15,25,45,0.2)"/>
+              <rect x="311" y="61" width="128" height="148" fill="rgba(26,35,64,0.4)"/>
+              <rect x="311" y="211" width="128" height="188" fill="rgba(26,35,64,0.3)"/>
+              <text x="120" y="130" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE A</text>
+              <text x="120" y="305" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE B</text>
+              <text x="255" y="240" fill="rgba(255,255,255,0.15)" font-size="10" text-anchor="middle" font-family="monospace">CORRIDOR</text>
+              <text x="375" y="140" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE C</text>
+              <text x="375" y="310" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE D</text>
+              <polyline points="120,300 200,295 255,295 255,125 310,125 390,125" fill="none" stroke="rgba(232,96,26,0.3)" stroke-width="1" stroke-dasharray="5 3"/>
+              <circle cx="120" cy="300" r="4" fill="rgba(232,96,26,0.35)" stroke="#e8601a" stroke-width="1"/>
+              <circle cx="255" cy="295" r="3" fill="rgba(232,96,26,0.3)" stroke="rgba(232,96,26,0.6)" stroke-width="0.75"/>
+              <circle cx="255" cy="125" r="3" fill="rgba(232,96,26,0.3)" stroke="rgba(232,96,26,0.6)" stroke-width="0.75"/>
+              <circle cx="310" cy="125" r="3" fill="rgba(232,96,26,0.3)" stroke="rgba(232,96,26,0.6)" stroke-width="0.75"/>
+              <circle cx="390" cy="125" r="14" fill="rgba(232,96,26,0.08)" stroke="rgba(232,96,26,0.5)" stroke-width="1" id="targetPulse2"/>
+              <circle cx="390" cy="125" r="4" fill="#e8601a"/>
+              <line x1="378" y1="125" x2="370" y2="125" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+              <line x1="402" y1="125" x2="410" y2="125" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+              <line x1="390" y1="113" x2="390" y2="105" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+              <line x1="390" y1="137" x2="390" y2="145" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+              <text x="390" y="155" fill="rgba(232,96,26,0.7)" font-size="8" text-anchor="middle" font-family="monospace">TARGET</text>
+              <g id="drone2">
+                <circle r="22" fill="none" stroke="rgba(232,96,26,0.1)" stroke-width="1" stroke-dasharray="2 2"/>
+                <circle r="9" fill="rgba(26,35,64,0.95)" stroke="rgba(232,96,26,0.9)" stroke-width="1.5"/>
+                <line x1="-9" y1="-9" x2="-5" y2="-5" stroke="#e8601a" stroke-width="1.5"/>
+                <line x1="9" y1="-9" x2="5" y2="-5" stroke="#e8601a" stroke-width="1.5"/>
+                <line x1="-9" y1="9" x2="-5" y2="5" stroke="#e8601a" stroke-width="1.5"/>
+                <line x1="9" y1="9" x2="5" y2="5" stroke="#e8601a" stroke-width="1.5"/>
+                <circle cx="-9" cy="-9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
+                <circle cx="9" cy="-9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
+                <circle cx="-9" cy="9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
+                <circle cx="9" cy="9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
+                <circle r="2.5" fill="#e8601a"/>
+              </g>
+              <g transform="translate(455,85)">
+                <circle r="13" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                <text y="-5" fill="rgba(255,255,255,0.5)" font-size="8" text-anchor="middle" font-family="monospace">N</text>
+                <text y="13" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="monospace">S</text>
+                <text x="-8" y="3" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="monospace">W</text>
+                <text x="8" y="3" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="monospace">E</text>
+                <line y1="-9" y2="-3" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+              </g>
+              <line x1="50" y1="422" x2="130" y2="422" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <line x1="50" y1="419" x2="50" y2="425" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <line x1="130" y1="419" x2="130" y2="425" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <text x="90" y="436" fill="rgba(255,255,255,0.18)" font-size="9" text-anchor="middle" font-family="monospace">50 ft</text>
+              <text x="240" y="448" fill="rgba(255,255,255,0.15)" font-size="9" text-anchor="middle" font-family="monospace">Tap any point to navigate</text>
+            </svg>
+          </div>
+
+          <div class="right-panel">
+            <div class="live-feed">
+              <div class="feed-label">Live feed</div>
+              <div class="live-badge"><div class="dot" style="background:#e8601a;"></div>REC</div>
+              <div style="position:absolute;inset:0;">
+                <div class="feed-grid"></div>
+                <div class="scan-line-feed"></div>
+                <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;">
+                  <polygon points="0,0 280,0 210,60 70,60" fill="rgba(30,45,70,0.6)"/>
+                  <polygon points="0,200 280,200 210,140 70,140" fill="rgba(30,45,70,0.6)"/>
+                  <polygon points="0,0 70,60 70,140 0,200" fill="rgba(20,35,58,0.5)"/>
+                  <polygon points="280,0 210,60 210,140 280,200" fill="rgba(20,35,58,0.5)"/>
+                  <rect x="70" y="60" width="140" height="80" fill="rgba(25,40,64,0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+                  <rect x="120" y="100" width="40" height="40" fill="rgba(15,25,40,0.9)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                  <ellipse cx="140" cy="65" rx="12" ry="3" fill="rgba(255,220,150,0.12)"/>
+                  <ellipse cx="140" cy="65" rx="6" ry="1.5" fill="rgba(255,220,150,0.25)"/>
+                  <rect x="30" y="80" width="7" height="60" fill="rgba(100,70,30,0.45)"/>
+                  <rect x="243" y="70" width="7" height="70" fill="rgba(100,70,30,0.45)"/>
+                  <text x="140" y="190" fill="rgba(232,96,26,0.7)" font-size="9" text-anchor="middle" font-family="monospace">TARGET: 28.4 ft</text>
+                </svg>
+                <div class="crosshair">
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="24" cy="24" r="20" stroke="rgba(232,96,26,0.4)" stroke-width="0.5"/>
+                    <circle cx="24" cy="24" r="10" stroke="rgba(232,96,26,0.6)" stroke-width="0.5"/>
+                    <line x1="24" y1="4" x2="24" y2="14" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+                    <line x1="24" y1="34" x2="24" y2="44" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+                    <line x1="4" y1="24" x2="14" y2="24" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+                    <line x1="34" y1="24" x2="44" y2="24" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
+                    <circle cx="24" cy="24" r="2" fill="#e8601a"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="controls-panel">
+              <div class="ctrl-label">Manual adjust</div>
+              <div class="ctrl-grid">
+                <div style="grid-column:2;" class="ctrl-btn">↑</div>
+                <div class="ctrl-btn">←</div>
+                <div class="ctrl-btn center">HOME</div>
+                <div class="ctrl-btn">→</div>
+                <div class="ctrl-btn" style="grid-column:2;">↓</div>
+                <div class="ctrl-btn" style="font-size:13px;">▲ ALT</div>
+                <div class="ctrl-btn" style="font-size:13px;">▼ ALT</div>
+              </div>
+              <div class="ctrl-label" style="margin-top:4px;">Telemetry</div>
+              <div class="telemetry">
+                <div class="telem-card"><div class="telem-label">Altitude</div><div class="telem-val orange">8.2 ft</div></div>
+                <div class="telem-card"><div class="telem-label">Speed</div><div class="telem-val">0.4 m/s</div></div>
+                <div class="telem-card"><div class="telem-label">Signal</div><div class="telem-val green">Strong</div></div>
+                <div class="telem-card"><div class="telem-label">Battery</div><div class="telem-val orange">74%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottombar">
+          <div class="mission-info">Mission: <span>Zone C inspection</span> · ETA <span id="eta2">0:38</span> · Obstacle avoidance <span>active</span></div>
+          <button class="abort-btn">Abort mission</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="callouts">
+      <div class="callout">
+        <div class="callout-num">01</div>
+        <div class="callout-title">Tap to Navigate</div>
+        <p class="callout-desc">Select any point on the floor plan. The drone calculates a safe, wall-respecting path and flies there autonomously.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-num">02</div>
+        <div class="callout-title">Live Feed Anywhere</div>
+        <p class="callout-desc">Watch real-time video on any device — phone, tablet, or laptop. Make micro-adjustments without a controller.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-num">03</div>
+        <div class="callout-title">Obstacle Avoidance</div>
+        <p class="callout-desc">The drone stops automatically if a worker, ladder, or obstruction enters the flight path. Always on, always active.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-num">04</div>
+        <div class="callout-title">Auto-documented</div>
+        <p class="callout-desc">Every flight is timestamped and saved. Progress records, safety logs, and dispute documentation — built in.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: Sizzle Reel placeholder -->
+  <div class="demo-section reveal">
+    <div class="section-tag">Sizzle Reel</div>
+    <h2 class="demo-title">See The Full Vision</h2>
+    <p class="demo-desc">A full product concept video is coming soon — showing SitePilot360 in action from deployment to real-time inspection on an active jobsite.</p>
+    <div class="coming-soon">
+      <span class="coming-soon-icon">🎬</span>
+      <div class="coming-soon-title">Video Coming Soon</div>
+      <p class="coming-soon-desc">We're putting together a concept video that shows the full SitePilot360 workflow — from setup to live inspection. Register your interest to be notified when it drops.</p>
+      <a href="index.html#contact" class="notify-link">Notify Me</a>
+    </div>
+  </div>
+
+  <!-- SECTION 3: Real footage placeholder -->
+  <div class="demo-section reveal">
+    <div class="section-tag">Field Testing</div>
+    <h2 class="demo-title">Real World Footage</h2>
+    <p class="demo-desc">As we move through field testing and early deployments, real jobsite footage will appear here. This is where proof becomes undeniable.</p>
+    <div class="coming-soon">
+      <span class="coming-soon-icon">🚁</span>
+      <div class="coming-soon-title">Field Testing Underway</div>
+      <p class="coming-soon-desc">Our first real-world deployment footage will appear here. Early access partners will be the first to see it.</p>
+      <a href="index.html#contact" class="notify-link">Become An Early Partner</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">SitePilot<span>360</span></div>
+    <div style="margin-top:6px; font-family:'Roboto Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Remote Eyes on Your Jobsite</div>
+  </div>
+  <div class="footer-copy">© 2026 SitePilot360. All rights reserved.</div>
+</footer>
+
+<script>
+  const drone2 = document.getElementById('drone2');
+  const etaEl2 = document.getElementById('eta2');
+  const targetPulse2 = document.getElementById('targetPulse2');
+
+  const waypoints2 = [
+    {x:120,y:300},{x:190,y:295},{x:230,y:295},{x:255,y:295},
+    {x:255,y:200},{x:255,y:130},{x:255,y:125},
+    {x:300,y:125},{x:330,y:125},{x:390,y:125}
+  ];
+
+  let segIdx2=0, t2=0, etaSec2=38, lastEta2=0, arrived2=false;
+  const speed2=0.008;
+
+  function lerp2(a,b,t){return a+(b-a)*t;}
+
+  function animate2(ts){
+    t2+=speed2;
+    if(t2>=1){
+      t2=0; segIdx2++;
+      if(segIdx2>=waypoints2.length-1){
+        arrived2=true;
+        setTimeout(()=>{segIdx2=0;t2=0;arrived2=false;etaSec2=38;},3000);
+        return;
+      }
+    }
+    if(!arrived2){
+      const a=waypoints2[segIdx2], b=waypoints2[segIdx2+1];
+      const x=lerp2(a.x,b.x,t2), y=lerp2(a.y,b.y,t2);
+      drone2.setAttribute('transform',`translate(${x},${y})`);
+      if(ts-lastEta2>600&&etaSec2>0){
+        etaSec2=Math.max(0,etaSec2-1);
+        const m=Math.floor(etaSec2/60), s=etaSec2%60;
+        etaEl2.textContent=`${m}:${s.toString().padStart(2,'0')}`;
+        lastEta2=ts;
+      }
+    }
+    requestAnimationFrame(animate2);
+  }
+
+  drone2.setAttribute('transform',`translate(${waypoints2[0].x},${waypoints2[0].y})`);
+
+  setInterval(()=>{
+    const r=targetPulse2.getAttribute('r');
+    targetPulse2.setAttribute('r',r==='14'?'18':'14');
+    targetPulse2.style.opacity=r==='14'?'0.5':'0.2';
+  },1000);
+
+  requestAnimationFrame(animate2);
+
+  const reveals=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  },{threshold:0.1});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
