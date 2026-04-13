@@ -8,520 +8,146 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy: #1a2340;
-    --navy-dark: #111827;
-    --navy-mid: #1e2d4a;
-    --orange: #e8601a;
-    --orange-light: #f07a3a;
-    --orange-dim: rgba(232, 96, 26, 0.15);
-    --white: #ffffff;
-    --off-white: #f0ede8;
-    --gray: #8a9ab5;
-    --gray-light: #c8d0dc;
-    --border: rgba(138, 154, 181, 0.2);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Barlow', sans-serif;
-    background: var(--navy-dark);
-    color: var(--off-white);
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 0 40px;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(17, 24, 39, 0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-
-  .nav-logo-icon { width: 42px; height: 42px; }
-
-  .nav-logo-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    color: var(--white);
-  }
-
-  .nav-logo-text span { color: var(--orange); }
-
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .nav-link {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gray-light);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .nav-link:hover { color: var(--white); }
-  .nav-link.active { color: var(--orange); }
-
-  .nav-cta {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--orange);
-    border: 1px solid var(--orange);
-    padding: 9px 20px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-
-  .nav-cta:hover { background: var(--orange); color: var(--white); }
-
-  /* ── PAGE HEADER ── */
-  .page-header {
-    padding: 140px 40px 60px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .page-header-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(138,154,181,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(138,154,181,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-
-  .page-header-content {
-    position: relative;
-    z-index: 2;
-    max-width: 700px;
-  }
-
-  .eyebrow {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .eyebrow::before {
-    content: '';
-    width: 32px;
-    height: 1px;
-    background: var(--orange);
-  }
-
-  .page-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: clamp(44px, 6vw, 72px);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.01em;
-    text-transform: uppercase;
-    color: var(--white);
-    margin-bottom: 24px;
-  }
-
-  .page-title .accent { color: var(--orange); }
-
-  .page-desc {
-    font-size: 17px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--gray-light);
-    max-width: 560px;
-  }
-
-  /* ── SECTIONS ── */
-  .content {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 40px 100px;
-  }
-
-  .demo-section {
-    margin-bottom: 80px;
-    padding-bottom: 80px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .demo-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-  }
-
-  .section-tag {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--orange);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-tag::before {
-    content: '';
-    width: 20px;
-    height: 1px;
-    background: var(--orange);
-  }
-
-  .demo-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-
-  .demo-desc {
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.8;
-    color: var(--gray-light);
-    max-width: 620px;
-    margin-bottom: 40px;
-  }
-
-  /* ── UI MOCKUP CONTAINER ── */
-  .mockup-container {
-    background: var(--navy-mid);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .mockup-container::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--orange), transparent);
-  }
-
-  /* ── APP UI ── */
-  .app {
-    background: #0d1520;
-    border-radius: 6px;
-    overflow: hidden;
-    width: 100%;
-    border: 0.5px solid rgba(255,255,255,0.1);
-  }
-
-  .topbar {
-    background: #111d2e;
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 0.5px solid rgba(255,255,255,0.08);
-  }
-
-  .app-logo { font-size: 13px; font-weight: 500; color: #fff; letter-spacing: 0.05em; font-family: 'Barlow Condensed', sans-serif; }
-  .app-logo span { color: #e8601a; }
-
-  .status-bar { display: flex; align-items: center; gap: 16px; }
-
-  .status-pill {
-    font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500;
-    display: flex; align-items: center; gap: 5px; font-family: 'Roboto Mono', monospace;
-  }
-  .status-pill.online { background: rgba(29,158,117,0.15); color: #1D9E75; border: 0.5px solid rgba(29,158,117,0.3); }
-  .status-pill.flying { background: rgba(232,96,26,0.15); color: #e8601a; border: 0.5px solid rgba(232,96,26,0.3); }
-
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: blink 1.5s ease-in-out infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  .main { display: grid; grid-template-columns: 1fr 280px; height: 460px; }
-
-  .floor-panel {
-    position: relative;
-    border-right: 0.5px solid rgba(255,255,255,0.08);
-    overflow: hidden;
-    background: #0d1520;
-  }
-
-  .panel-label {
-    position: absolute; top: 12px; left: 14px;
-    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); z-index: 10; font-weight: 500;
-    font-family: 'Roboto Mono', monospace;
-  }
-
-  .floor-svg { width: 100%; height: 100%; }
-
-  .right-panel { display: flex; flex-direction: column; background: #111d2e; }
-
-  .live-feed {
-    position: relative; flex: 1; background: #080f18;
-    overflow: hidden; border-bottom: 0.5px solid rgba(255,255,255,0.08);
-  }
-
-  .feed-label {
-    position: absolute; top: 10px; left: 12px;
-    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: rgba(255,255,255,0.35); z-index: 10; font-weight: 500;
-    font-family: 'Roboto Mono', monospace;
-  }
-
-  .live-badge {
-    position: absolute; top: 10px; right: 12px;
-    font-size: 10px; font-weight: 500; color: #e8601a; z-index: 10;
-    display: flex; align-items: center; gap: 4px;
-    font-family: 'Roboto Mono', monospace;
-  }
-
-  .feed-grid {
-    position: absolute; inset: 0;
-    background-image: linear-gradient(rgba(232,96,26,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(232,96,26,0.04) 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  .scan-line-feed {
-    position: absolute; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(232,96,26,0.6), transparent);
-    animation: scan-feed 3s ease-in-out infinite; z-index: 5;
-  }
-  @keyframes scan-feed { 0%{top:30%;opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{top:80%;opacity:0} }
-
-  .crosshair { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 6; }
-  .crosshair svg { width: 48px; height: 48px; animation: pulse-cross 2s ease-in-out infinite; }
-  @keyframes pulse-cross { 0%,100%{opacity:0.6;transform:scale(1)} 50%{opacity:1;transform:scale(1.1)} }
-
-  .controls-panel { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-
-  .ctrl-label {
-    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: rgba(255,255,255,0.3); font-weight: 500; margin-bottom: 2px;
-    font-family: 'Roboto Mono', monospace;
-  }
-
-  .ctrl-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
-
-  .ctrl-btn {
-    background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1);
-    border-radius: 6px; padding: 8px 4px; color: rgba(255,255,255,0.6);
-    font-size: 18px; cursor: pointer; display: flex; align-items: center;
-    justify-content: center; transition: all 0.15s;
-  }
-  .ctrl-btn:hover { background: rgba(232,96,26,0.15); border-color: rgba(232,96,26,0.4); color: #e8601a; }
-  .ctrl-btn.center { background: rgba(232,96,26,0.1); border-color: rgba(232,96,26,0.3); color: #e8601a; font-size: 12px; font-weight: 500; font-family: 'Roboto Mono', monospace; }
-
-  .telemetry { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-
-  .telem-card {
-    background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
-    border-radius: 6px; padding: 8px 10px;
-  }
-  .telem-label { font-size: 10px; color: rgba(255,255,255,0.3); margin-bottom: 3px; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Roboto Mono', monospace; }
-  .telem-val { font-size: 15px; font-weight: 500; color: #fff; font-family: 'Roboto Mono', monospace; }
-  .telem-val.orange { color: #e8601a; }
-  .telem-val.green { color: #1D9E75; }
-
-  .bottombar {
-    background: #111d2e; border-top: 0.5px solid rgba(255,255,255,0.08);
-    padding: 8px 16px; display: flex; align-items: center; justify-content: space-between;
-  }
-  .mission-info { font-size: 11px; color: rgba(255,255,255,0.4); font-family: 'Roboto Mono', monospace; }
-  .mission-info span { color: #e8601a; }
-
-  .abort-btn {
-    font-size: 11px; font-weight: 500; color: #e8601a;
-    background: rgba(232,96,26,0.1); border: 0.5px solid rgba(232,96,26,0.3);
-    border-radius: 4px; padding: 5px 14px; cursor: pointer;
-    letter-spacing: 0.08em; text-transform: uppercase; font-family: 'Roboto Mono', monospace;
-    transition: all 0.15s;
-  }
-  .abort-btn:hover { background: rgba(232,96,26,0.25); }
-
-  /* ── CALLOUT POINTS ── */
-  .callouts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 2px;
-    margin-top: 24px;
-  }
-
-  .callout {
-    background: rgba(26,35,64,0.5);
-    padding: 24px;
-    border-left: 2px solid var(--orange);
-  }
-
-  .callout-num {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 10px;
-    color: var(--orange);
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-  }
-
-  .callout-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--white);
-    margin-bottom: 6px;
-  }
-
-  .callout-desc {
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--gray);
-  }
-
-  /* ── COMING SOON CARD ── */
-  .coming-soon {
-    background: rgba(26,35,64,0.4);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 60px 40px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .coming-soon::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--orange), transparent);
-  }
-
-  .coming-soon-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    display: block;
-    opacity: 0.4;
-  }
-
-  .coming-soon-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--gray);
-    margin-bottom: 12px;
-  }
-
-  .coming-soon-desc {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--gray);
-    max-width: 400px;
-    margin: 0 auto 24px;
-  }
-
-  .notify-link {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--orange);
-    border: 1px solid var(--orange);
-    padding: 10px 24px;
-    text-decoration: none;
-    transition: all 0.2s;
-    display: inline-block;
-  }
-
-  .notify-link:hover { background: var(--orange); color: var(--white); }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 40px;
-    background: var(--navy-dark);
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .footer-logo {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    color: var(--white);
-  }
-
-  .footer-logo span { color: var(--orange); }
-  .footer-copy { font-size: 12px; color: var(--gray); }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    nav { padding: 0 20px; }
-    .nav-link { display: none; }
-    .page-header { padding: 120px 20px 40px; }
-    .content { padding: 0 20px 60px; }
-    .mockup-container { padding: 16px; }
-    .main { grid-template-columns: 1fr; height: auto; }
-    .right-panel { display: none; }
-    .floor-panel { height: 360px; }
-    footer { padding: 30px 20px; flex-direction: column; text-align: center; }
-    .coming-soon { padding: 40px 20px; }
-  }
-
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;width:100%;}
+body{font-family:'Barlow',sans-serif;background:#111827;color:#f0ede8;display:flex;flex-direction:column;min-height:100vh;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(17,24,39,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(138,154,181,0.2);}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:0.05em;color:#fff;}
+.nav-logo-text span{color:#e8601a;}
+.nav-links{display:flex;align-items:center;gap:20px;}
+.nav-link{font-family:'Roboto Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c8d0dc;text-decoration:none;transition:color 0.2s;}
+.nav-link:hover{color:#fff;}
+.nav-cta{font-family:'Roboto Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#e8601a;border:1px solid #e8601a;padding:9px 20px;text-decoration:none;transition:all 0.2s;}
+.nav-cta:hover{background:#e8601a;color:#fff;}
+
+/* MAIN WRAPPER */
+.page-main{flex:1;display:flex;flex-direction:column;padding-top:72px;}
+
+/* LOGIN SCREEN */
+#loginScreen{flex:1;display:flex;align-items:center;justify-content:center;background:#0d1520;position:relative;overflow:hidden;min-height:calc(100vh - 72px - 80px);}
+.login-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(138,154,181,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(138,154,181,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.login-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(232,96,26,0.06) 0%,transparent 70%);pointer-events:none;}
+.login-card{position:relative;z-index:2;width:100%;max-width:420px;padding:40px;}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:32px;justify-content:center;}
+.login-logo-text{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;letter-spacing:0.05em;color:#fff;}
+.login-logo-text span{color:#e8601a;}
+.login-title{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:#fff;text-align:center;margin-bottom:6px;}
+.login-sub{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#8a9ab5;text-align:center;margin-bottom:36px;}
+.login-form{display:flex;flex-direction:column;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#8a9ab5;}
+.form-input{background:rgba(17,24,39,0.8);border:1px solid rgba(138,154,181,0.2);padding:14px 16px;font-family:'Roboto Mono',monospace;font-size:14px;color:#f0ede8;outline:none;transition:border-color 0.2s;width:100%;}
+.form-input:focus,.form-input.active{border-color:#e8601a;}
+.form-input.filled{border-color:rgba(232,96,26,0.4);}
+.sign-in-btn{margin-top:8px;padding:16px;background:#e8601a;border:none;cursor:pointer;font-family:'Roboto Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#fff;transition:all 0.15s;width:100%;position:relative;overflow:hidden;}
+.sign-in-btn.clicking{background:#c04e12;transform:scale(0.98);box-shadow:inset 0 2px 8px rgba(0,0,0,0.3);}
+.sign-in-btn.authenticating{background:#1e2d4a;border:1px solid rgba(232,96,26,0.4);color:#e8601a;cursor:default;}
+.login-footer{margin-top:24px;text-align:center;}
+.login-footer-text{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;}
+
+/* AUTH DOTS */
+.auth-dots{display:inline-flex;gap:6px;align-items:center;}
+.auth-dot{width:6px;height:6px;background:#e8601a;border-radius:50%;animation:dotpulse 1.2s ease-in-out infinite;}
+.auth-dot:nth-child(2){animation-delay:0.2s;}
+.auth-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes dotpulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
+
+/* APP SCREEN */
+#appScreen{display:none;flex-direction:column;flex:1;opacity:0;transition:opacity 0.6s ease;min-height:calc(100vh - 72px - 80px);}
+#appScreen.visible{opacity:1;}
+
+/* APP UI */
+.sp{font-family:'Barlow',sans-serif;background:#111827;color:#f0ede8;display:flex;flex-direction:column;flex:1;}
+.app-topbar{background:#1a2340;border-bottom:1px solid rgba(138,154,181,0.2);display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:48px;flex-shrink:0;}
+.app-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:0.05em;color:#fff;}
+.app-logo-text span{color:#e8601a;}
+.badge{background:rgba(232,96,26,0.15);border:1px solid rgba(232,96,26,0.4);padding:3px 10px;display:flex;align-items:center;gap:6px;}
+.badge-dot{width:7px;height:7px;background:#e8601a;border-radius:50%;animation:blink 1.2s ease-in-out infinite;}
+.badge-text{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.15em;color:#e8601a;text-transform:uppercase;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.25}}
+.dash-body{display:flex;flex:1;overflow:hidden;min-height:0;height:calc(100vh - 72px - 48px - 80px);}
+.sidebar{background:#1e2d4a;border-right:1px solid rgba(138,154,181,0.2);display:flex;flex-direction:column;width:240px;flex-shrink:0;overflow-y:auto;}
+.sidebar-section{padding:10px 14px 6px;}
+.sec-label{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#8a9ab5;margin-bottom:7px;}
+.proj-item{padding:8px 9px;cursor:pointer;border-left:3px solid transparent;transition:all 0.2s;border-radius:0 4px 4px 0;margin-bottom:2px;}
+.proj-item:hover{background:rgba(138,154,181,0.08);}
+.proj-item.active{border-left-color:#e8601a;background:rgba(232,96,26,0.1);}
+.proj-name{font-size:12px;font-weight:500;color:#f0ede8;}
+.proj-meta{font-family:'Roboto Mono',monospace;font-size:9px;color:#8a9ab5;margin-top:2px;}
+.proj-item.active .proj-name{color:#fff;}
+.floor-btn{margin:0 8px 3px;padding:7px 9px;cursor:pointer;border:1px solid rgba(138,154,181,0.2);background:rgba(17,24,39,0.4);display:flex;align-items:center;justify-content:space-between;transition:all 0.2s;}
+.floor-btn:hover{border-color:rgba(232,96,26,0.4);background:rgba(232,96,26,0.06);}
+.floor-btn.sel{border-color:#e8601a;background:rgba(232,96,26,0.12);}
+.floor-name{font-size:11px;color:#c8d0dc;font-weight:500;}
+.floor-btn.sel .floor-name{color:#fff;}
+.floor-arr{font-size:9px;color:#8a9ab5;}
+.floor-btn.sel .floor-arr{color:#e8601a;}
+.gl-wrap{padding:12px 8px 14px;margin-top:auto;border-top:1px solid rgba(138,154,181,0.15);}
+.gl-btn{width:100%;padding:12px;background:#e8601a;border:none;cursor:pointer;font-family:'Roboto Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#fff;transition:background 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.gl-btn:hover{background:#f07a3a;}
+.gl-btn:disabled{background:rgba(232,96,26,0.22);cursor:not-allowed;color:rgba(255,255,255,0.35);}
+.gl-hint{font-family:'Roboto Mono',monospace;font-size:9px;color:#8a9ab5;text-align:center;margin-top:7px;letter-spacing:0.07em;}
+.fp-wrap{display:flex;flex-direction:column;flex:1;min-width:0;overflow:hidden;}
+.fp-area{position:relative;background:#0d1520;flex:1;overflow:hidden;cursor:none;}
+.fp-label{position:absolute;top:10px;left:12px;font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#8a9ab5;z-index:5;pointer-events:none;}
+.fp-footer{background:#1a2340;border-top:1px solid rgba(138,154,181,0.15);padding:7px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.fp-msg{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#8a9ab5;text-transform:uppercase;}
+.fp-msg.warn{color:#fbbf24;}
+.fp-msg.ok{color:#4ade80;}
+.fp-coords{font-family:'Roboto Mono',monospace;font-size:9px;color:#8a9ab5;}
+#cursor{position:absolute;pointer-events:none;z-index:20;transform:translate(-50%,-50%);transition:opacity 0.15s;}
+.room-highlight{fill:rgba(232,96,26,0.18);stroke:#e8601a;stroke-width:1.5;opacity:0;transition:opacity 0.3s;}
+.room-highlight.visible{opacity:1;}
+.flight-body{display:flex;flex:1;overflow:hidden;min-height:0;}
+.feed-area{position:relative;background:#060e18;flex:1;overflow:hidden;}
+.scan-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,96,26,0.5),transparent);animation:scan 2.8s ease-in-out infinite;pointer-events:none;}
+@keyframes scan{0%{top:10%;opacity:0}8%{opacity:1}92%{opacity:0.6}100%{top:90%;opacity:0}}
+.feed-tl{position:absolute;top:12px;left:14px;display:flex;flex-direction:column;gap:4px;z-index:5;}
+.feed-tr{position:absolute;top:12px;right:14px;display:flex;flex-direction:column;align-items:flex-end;gap:4px;z-index:5;}
+.hud{background:rgba(0,0,0,0.65);border:1px solid rgba(138,154,181,0.25);padding:3px 9px;font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#c8d0dc;text-transform:uppercase;display:flex;align-items:center;gap:5px;}
+.hud.live{border-color:rgba(232,96,26,0.5);color:#e8601a;}
+.hud-dot{width:6px;height:6px;background:#e8601a;border-radius:50%;animation:blink 1.2s infinite;}
+.ok{color:#4ade80;}
+.warn{color:#fbbf24;}
+.danger{color:#f87171;}
+.flight-panel{background:#111827;border-left:1px solid rgba(138,154,181,0.2);width:220px;flex-shrink:0;display:flex;flex-direction:column;overflow-y:auto;}
+.fp-sec{padding:10px 13px;border-bottom:1px solid rgba(138,154,181,0.12);}
+.fp-sec-title{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#8a9ab5;margin-bottom:7px;}
+.mrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+.mkey{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8a9ab5;}
+.mval{font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;color:#c8d0dc;}
+.ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
+.ctrl-btn{padding:6px 3px;background:rgba(30,45,74,0.5);border:1px solid rgba(138,154,181,0.2);font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:0.06em;text-transform:uppercase;color:#8a9ab5;cursor:pointer;text-align:center;transition:all 0.2s;border-radius:2px;}
+.ctrl-btn:hover{border-color:rgba(232,96,26,0.5);color:#e8601a;background:rgba(232,96,26,0.08);}
+.rth-btn{width:100%;padding:10px;background:transparent;border:1px solid rgba(232,96,26,0.5);font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#e8601a;cursor:pointer;transition:all 0.2s;margin-bottom:5px;}
+.rth-btn:hover:not(:disabled){background:rgba(232,96,26,0.1);}
+.rth-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.panic-btn{width:100%;padding:11px;background:#7f1d1d;border:1px solid #ef4444;font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#fca5a5;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px;}
+.panic-btn:hover{background:#991b1b;}
+.landing-body{flex:1;display:flex;align-items:center;justify-content:center;background:#060e18;}
+.landing-card{text-align:center;padding:36px;max-width:320px;}
+.land-icon{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:500;}
+.land-title{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.land-sub{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#8a9ab5;margin-bottom:6px;}
+.land-detail{font-size:12px;color:#8a9ab5;margin-bottom:28px;line-height:1.65;}
+.back-btn{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#fff;background:#e8601a;border:none;padding:11px 26px;cursor:pointer;transition:background 0.2s;}
+.back-btn:hover{background:#f07a3a;}
+
+/* FLOATING RETURN BUTTON */
+.float-return{position:fixed;bottom:100px;right:24px;z-index:200;background:#1a2340;border:1px solid rgba(232,96,26,0.4);padding:10px 16px;display:flex;align-items:center;gap:8px;text-decoration:none;transition:all 0.2s;}
+.float-return:hover{background:rgba(232,96,26,0.12);border-color:#e8601a;}
+.float-return-icon{font-size:11px;color:#e8601a;}
+.float-return-text{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;}
+
+/* FOOTER */
+footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,181,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;flex-shrink:0;}
+.footer-logo{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:0.05em;color:#fff;}
+.footer-logo span{color:#e8601a;}
+.footer-tagline{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#8a9ab5;}
+.footer-copy{font-size:12px;color:#8a9ab5;}
 </style>
 </head>
 <body>
@@ -529,7 +155,7 @@
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <svg class="nav-logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/>
       <circle cx="50" cy="50" r="38" stroke="#8a9ab5" stroke-width="0.5" opacity="0.2"/>
       <line x1="50" y1="50" x2="22" y2="22" stroke="#1a2340" stroke-width="6"/>
@@ -550,297 +176,386 @@
     </svg>
     <span class="nav-logo-text">SitePilot<span>360</span></span>
   </a>
-  <div class="nav-links">
-    <a href="action.html" class="nav-link active">See It In Action</a>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <a href="action.html" class="nav-link">See It In Action</a>
     <a href="index.html#contact" class="nav-cta">Request Early Access</a>
   </div>
 </nav>
 
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="page-header-grid"></div>
-  <div class="page-header-content">
-    <div class="eyebrow">See It In Action</div>
-    <h1 class="page-title">The Product.<br><span class="accent">Before It's Built.</span></h1>
-    <p class="page-desc">
-      This is what SitePilot360 looks like in operation — autonomous indoor drone inspection, live video feed, and floor plan navigation from any device. No pilot required.
-    </p>
+<!-- FLOATING RETURN BUTTON -->
+<a href="https://sitepilot360.com" class="float-return" id="floatReturn">
+  <span class="float-return-icon">←</span>
+  <span class="float-return-text">sitepilot360.com</span>
+</a>
+
+<div class="page-main">
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen">
+    <div class="login-grid"></div>
+    <div class="login-glow"></div>
+    <div class="login-card">
+      <div class="login-logo">
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/>
+          <line x1="50" y1="50" x2="22" y2="22" stroke="#1a2340" stroke-width="6"/>
+          <line x1="50" y1="50" x2="78" y2="22" stroke="#1a2340" stroke-width="6"/>
+          <line x1="50" y1="50" x2="22" y2="78" stroke="#1a2340" stroke-width="6"/>
+          <line x1="50" y1="50" x2="78" y2="78" stroke="#1a2340" stroke-width="6"/>
+          <circle cx="22" cy="22" r="12" fill="#1a2340"/><circle cx="78" cy="22" r="12" fill="#1a2340"/>
+          <circle cx="22" cy="78" r="12" fill="#1a2340"/><circle cx="78" cy="78" r="12" fill="#1a2340"/>
+          <ellipse cx="22" cy="22" rx="10" ry="3" fill="#e8601a" transform="rotate(-45 22 22)"/>
+          <ellipse cx="78" cy="22" rx="10" ry="3" fill="#e8601a" transform="rotate(45 78 22)"/>
+          <ellipse cx="22" cy="78" rx="10" ry="3" fill="#e8601a" transform="rotate(45 22 78)"/>
+          <ellipse cx="78" cy="78" rx="10" ry="3" fill="#e8601a" transform="rotate(-45 78 78)"/>
+          <circle cx="50" cy="50" r="5" fill="#e8601a"/>
+        </svg>
+        <span class="login-logo-text">SitePilot<span>360</span></span>
+      </div>
+      <div class="login-title">Welcome Back</div>
+      <div class="login-sub">Sign in to your dashboard</div>
+      <div class="login-form">
+        <div class="form-group">
+          <div class="form-label">Username</div>
+          <input type="text" class="form-input" id="usernameInput" placeholder="" autocomplete="off"/>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Password</div>
+          <input type="password" class="form-input" id="passwordInput" placeholder="" autocomplete="off"/>
+        </div>
+        <button class="sign-in-btn" id="signInBtn">Sign In</button>
+      </div>
+      <div class="login-footer">
+        <span class="login-footer-text">SitePilot360 · Secure Platform Access</span>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- CONTENT -->
-<div class="content">
-
-  <!-- SECTION 1: Interactive UI Mockup -->
-  <div class="demo-section reveal">
-    <div class="section-tag">Interactive Demo</div>
-    <h2 class="demo-title">The Operator Interface</h2>
-    <p class="demo-desc">
-      This is the SitePilot360 platform UI. A superintendent taps any point on the floor plan — the drone navigates there autonomously through corridors and doorways, streaming live video to their screen in real time. No joystick. No training. Just tap and see.
-    </p>
-
-    <div class="mockup-container">
-      <div class="app">
-        <div class="topbar">
-          <div class="app-logo">SitePilot<span>360</span></div>
-          <div class="status-bar">
-            <div class="status-pill online"><div class="dot"></div>System online</div>
-            <div class="status-pill flying"><div class="dot"></div>Mission active</div>
+  <!-- APP SCREEN -->
+  <div id="appScreen">
+    <!-- SCREEN 1: DASHBOARD -->
+    <div style="display:flex;flex-direction:column;flex:1;" id="screenDash">
+      <div class="app-topbar">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/>
+            <circle cx="50" cy="50" r="5" fill="#e8601a"/>
+          </svg>
+          <span class="app-logo-text">SitePilot<span>360</span></span>
+        </div>
+        <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#8a9ab5;text-transform:uppercase;">PM Dashboard · j.rauch@sitepilot360.com</span>
+      </div>
+      <div class="dash-body">
+        <div class="sidebar">
+          <div class="sidebar-section">
+            <div class="sec-label">Active Projects</div>
+            <div class="proj-item active"><div class="proj-name">Jones Commercial</div><div class="proj-meta">8 floors · 142,000 sq ft</div></div>
+            <div class="proj-item"><div class="proj-name">Meridian Office Park</div><div class="proj-meta">3 floors · 54,000 sq ft</div></div>
+            <div class="proj-item"><div class="proj-name">Harborview Retail</div><div class="proj-meta">1 floor · 28,000 sq ft</div></div>
+          </div>
+          <div class="sidebar-section" style="padding-bottom:4px;">
+            <div class="sec-label">Floor Select</div>
+          </div>
+          <div class="floor-btn sel" onclick="selFloor(this,'Floor 2 — West Wing')"><span class="floor-name">Floor 2 — West Wing</span><span class="floor-arr">▶</span></div>
+          <div class="floor-btn" onclick="selFloor(this,'Floor 1 — Lobby')"><span class="floor-name">Floor 1 — Lobby</span><span class="floor-arr">▶</span></div>
+          <div class="floor-btn" onclick="selFloor(this,'Floor 3 — Mezzanine')"><span class="floor-name">Floor 3 — Mezzanine</span><span class="floor-arr">▶</span></div>
+          <div class="floor-btn" onclick="selFloor(this,'Basement — Mechanical')"><span class="floor-name">Basement — Mechanical</span><span class="floor-arr">▶</span></div>
+          <div class="gl-wrap">
+            <button class="gl-btn" id="glBtn" onclick="goLive()" disabled><span>▶</span><span>GO LIVE</span></button>
+            <div class="gl-hint" id="glHint">Hover the floor plan to navigate</div>
           </div>
         </div>
-
-        <div class="main">
-          <div class="floor-panel">
-            <div class="panel-label">Floor plan — Level 2</div>
-            <svg class="floor-svg" viewBox="0 0 480 460" xmlns="http://www.w3.org/2000/svg" id="floorSvg">
+        <div class="fp-wrap">
+          <div class="fp-area" id="fpArea">
+            <div class="fp-label" id="fpLabel">Floor 2 — West Wing &nbsp;·&nbsp; Click to set destination</div>
+            <svg id="cursor" width="32" height="32" viewBox="-16 -16 32 32" style="opacity:0;position:absolute;pointer-events:none;z-index:20;transform:translate(-50%,-50%);transition:opacity 0.15s;">
+              <line x1="-13" y1="0" x2="-5" y2="0" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
+              <line x1="5" y1="0" x2="13" y2="0" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
+              <line x1="0" y1="-13" x2="0" y2="-5" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
+              <line x1="0" y1="5" x2="0" y2="13" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
+              <circle r="8" style="fill:none;stroke:#e8601a;stroke-width:1.2;opacity:0.7;"/>
+              <circle r="2.5" style="fill:#e8601a;opacity:0.9;"/>
+            </svg>
+            <svg id="fpSvg" style="position:absolute;inset:0;width:100%;height:100%;display:block;" viewBox="0 0 560 420" preserveAspectRatio="xMidYMid meet">
               <defs>
-                <pattern id="grid2" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="0.5"/>
+                <pattern id="hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+                  <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(239,68,68,0.3)" stroke-width="2.5"/>
                 </pattern>
               </defs>
-              <rect width="480" height="460" fill="url(#grid2)"/>
-              <rect x="40" y="60" width="400" height="340" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="200" y1="60" x2="200" y2="130" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="200" y1="160" x2="200" y2="280" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="200" y1="310" x2="200" y2="400" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="310" y1="60" x2="310" y2="110" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="310" y1="140" x2="310" y2="280" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="310" y1="310" x2="310" y2="400" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <line x1="310" y1="210" x2="440" y2="210" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-              <path d="M 200 130 A 30 30 0 0 0 170 160" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
-              <path d="M 200 310 A 30 30 0 0 1 170 280" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
-              <path d="M 310 110 A 30 30 0 0 1 340 140" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
-              <path d="M 310 310 A 30 30 0 0 0 340 280" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.75" stroke-dasharray="2 2"/>
-              <rect x="41" y="61" width="158" height="138" fill="rgba(26,35,64,0.3)"/>
-              <rect x="41" y="201" width="158" height="198" fill="rgba(26,35,64,0.3)"/>
-              <rect x="201" y="61" width="108" height="338" fill="rgba(15,25,45,0.2)"/>
-              <rect x="311" y="61" width="128" height="148" fill="rgba(26,35,64,0.4)"/>
-              <rect x="311" y="211" width="128" height="188" fill="rgba(26,35,64,0.3)"/>
-              <text x="120" y="130" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE A</text>
-              <text x="120" y="305" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE B</text>
-              <text x="255" y="240" fill="rgba(255,255,255,0.15)" font-size="10" text-anchor="middle" font-family="monospace">CORRIDOR</text>
-              <text x="375" y="140" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE C</text>
-              <text x="375" y="310" fill="rgba(255,255,255,0.2)" font-size="11" text-anchor="middle" font-family="monospace">ZONE D</text>
-              <polyline points="120,300 200,295 255,295 255,125 310,125 390,125" fill="none" stroke="rgba(232,96,26,0.3)" stroke-width="1" stroke-dasharray="5 3"/>
-              <circle cx="120" cy="300" r="4" fill="rgba(232,96,26,0.35)" stroke="#e8601a" stroke-width="1"/>
-              <circle cx="255" cy="295" r="3" fill="rgba(232,96,26,0.3)" stroke="rgba(232,96,26,0.6)" stroke-width="0.75"/>
-              <circle cx="255" cy="125" r="3" fill="rgba(232,96,26,0.3)" stroke="rgba(232,96,26,0.6)" stroke-width="0.75"/>
-              <circle cx="310" cy="125" r="3" fill="rgba(232,96,26,0.3)" stroke="rgba(232,96,26,0.6)" stroke-width="0.75"/>
-              <circle cx="390" cy="125" r="14" fill="rgba(232,96,26,0.08)" stroke="rgba(232,96,26,0.5)" stroke-width="1" id="targetPulse2"/>
-              <circle cx="390" cy="125" r="4" fill="#e8601a"/>
-              <line x1="378" y1="125" x2="370" y2="125" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-              <line x1="402" y1="125" x2="410" y2="125" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-              <line x1="390" y1="113" x2="390" y2="105" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-              <line x1="390" y1="137" x2="390" y2="145" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-              <text x="390" y="155" fill="rgba(232,96,26,0.7)" font-size="8" text-anchor="middle" font-family="monospace">TARGET</text>
-              <g id="drone2">
-                <circle r="22" fill="none" stroke="rgba(232,96,26,0.1)" stroke-width="1" stroke-dasharray="2 2"/>
-                <circle r="9" fill="rgba(26,35,64,0.95)" stroke="rgba(232,96,26,0.9)" stroke-width="1.5"/>
-                <line x1="-9" y1="-9" x2="-5" y2="-5" stroke="#e8601a" stroke-width="1.5"/>
-                <line x1="9" y1="-9" x2="5" y2="-5" stroke="#e8601a" stroke-width="1.5"/>
-                <line x1="-9" y1="9" x2="-5" y2="5" stroke="#e8601a" stroke-width="1.5"/>
-                <line x1="9" y1="9" x2="5" y2="5" stroke="#e8601a" stroke-width="1.5"/>
-                <circle cx="-9" cy="-9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
-                <circle cx="9" cy="-9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
-                <circle cx="-9" cy="9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
-                <circle cx="9" cy="9" r="4" fill="none" stroke="rgba(232,96,26,0.7)" stroke-width="1"/>
-                <circle r="2.5" fill="#e8601a"/>
+              <rect x="20" y="20" width="520" height="380" fill="none" stroke="rgba(138,154,181,0.3)" stroke-width="2"/>
+              <rect class="room-highlight" id="hl-confA" x="20" y="20" width="170" height="140"/>
+              <rect x="20" y="20" width="170" height="140" fill="rgba(26,35,64,0.55)" stroke="rgba(138,154,181,0.25)" stroke-width="1" style="pointer-events:none"/>
+              <text x="105" y="90" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="8" fill="rgba(138,154,181,0.55)" letter-spacing="1" style="pointer-events:none">CONF RM A</text>
+              <rect class="room-highlight" id="hl-office" x="200" y="20" width="130" height="140"/>
+              <rect x="200" y="20" width="130" height="140" fill="rgba(26,35,64,0.55)" stroke="rgba(138,154,181,0.25)" stroke-width="1" style="pointer-events:none"/>
+              <text x="265" y="90" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="8" fill="rgba(138,154,181,0.55)" letter-spacing="1" style="pointer-events:none">OFFICE</text>
+              <rect x="340" y="20" width="200" height="220" fill="rgba(239,68,68,0.05)" stroke="rgba(239,68,68,0.45)" stroke-width="1.5" style="pointer-events:none"/>
+              <rect x="340" y="20" width="200" height="220" fill="url(#hatch)" opacity="0.5" style="pointer-events:none"/>
+              <text x="440" y="118" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="8" fill="rgba(239,68,68,0.75)" letter-spacing="1" style="pointer-events:none">WEST WING</text>
+              <text x="440" y="133" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="7" fill="rgba(239,68,68,0.55)" letter-spacing="1" style="pointer-events:none">NO-FLY ZONE</text>
+              <rect class="room-highlight" id="hl-hall" x="20" y="170" width="310" height="80"/>
+              <rect x="20" y="170" width="310" height="80" fill="rgba(26,35,64,0.4)" stroke="rgba(138,154,181,0.2)" stroke-width="1" style="pointer-events:none"/>
+              <text x="175" y="213" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="8" fill="rgba(138,154,181,0.45)" letter-spacing="1" style="pointer-events:none">HALLWAY</text>
+              <rect class="room-highlight" id="hl-break" x="340" y="250" width="200" height="80"/>
+              <rect x="340" y="250" width="200" height="80" fill="rgba(26,35,64,0.55)" stroke="rgba(138,154,181,0.25)" stroke-width="1" style="pointer-events:none"/>
+              <text x="440" y="293" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="8" fill="rgba(138,154,181,0.55)" letter-spacing="1" style="pointer-events:none">BREAKROOM</text>
+              <rect class="room-highlight" id="hl-open" x="20" y="260" width="310" height="140"/>
+              <rect x="20" y="260" width="310" height="140" fill="rgba(26,35,64,0.4)" stroke="rgba(138,154,181,0.2)" stroke-width="1" style="pointer-events:none"/>
+              <text x="175" y="333" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="8" fill="rgba(138,154,181,0.45)" letter-spacing="1" style="pointer-events:none">OPEN WORKSPACE</text>
+              <rect x="185" y="20" width="14" height="18" fill="#e8601a" opacity="0.7" style="pointer-events:none"/>
+              <text x="192" y="13" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="6.5" fill="#e8601a" style="pointer-events:none">ELEV</text>
+              <rect x="20" y="20" width="14" height="14" fill="rgba(232,96,26,0.3)" stroke="#e8601a" stroke-width="1" style="pointer-events:none"/>
+              <text x="27" y="31" text-anchor="middle" font-family="'Roboto Mono',monospace" font-size="6" fill="#e8601a" style="pointer-events:none">H</text>
+              <rect id="selRoomGlow" x="0" y="0" width="0" height="0" fill="rgba(232,96,26,0.12)" stroke="#e8601a" stroke-width="1.5" opacity="0" style="pointer-events:none"/>
+              <line id="pathLine" x1="27" y1="27" x2="27" y2="27" stroke="#e8601a" stroke-width="1" stroke-dasharray="4,3" opacity="0" style="pointer-events:none"/>
+              <g id="targetG" opacity="0" style="pointer-events:none">
+                <circle cx="0" cy="0" r="18" fill="none" stroke="rgba(232,96,26,0.3)" stroke-width="1"/>
+                <circle cx="0" cy="0" r="10" fill="none" stroke="#e8601a" stroke-width="1.5"/>
+                <circle cx="0" cy="0" r="3.5" fill="#e8601a"/>
+                <line x1="-16" y1="0" x2="16" y2="0" stroke="#e8601a" stroke-width="0.8"/>
+                <line x1="0" y1="-16" x2="0" y2="16" stroke="#e8601a" stroke-width="0.8"/>
               </g>
-              <g transform="translate(455,85)">
-                <circle r="13" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-                <text y="-5" fill="rgba(255,255,255,0.5)" font-size="8" text-anchor="middle" font-family="monospace">N</text>
-                <text y="13" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="monospace">S</text>
-                <text x="-8" y="3" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="monospace">W</text>
-                <text x="8" y="3" fill="rgba(255,255,255,0.25)" font-size="7" text-anchor="middle" font-family="monospace">E</text>
-                <line y1="-9" y2="-3" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
-              </g>
-              <line x1="50" y1="422" x2="130" y2="422" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-              <line x1="50" y1="419" x2="50" y2="425" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-              <line x1="130" y1="419" x2="130" y2="425" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-              <text x="90" y="436" fill="rgba(255,255,255,0.18)" font-size="9" text-anchor="middle" font-family="monospace">50 ft</text>
-              <text x="240" y="448" fill="rgba(255,255,255,0.15)" font-size="9" text-anchor="middle" font-family="monospace">Tap any point to navigate</text>
             </svg>
           </div>
-
-          <div class="right-panel">
-            <div class="live-feed">
-              <div class="feed-label">Live feed</div>
-              <div class="live-badge"><div class="dot" style="background:#e8601a;"></div>REC</div>
-              <div style="position:absolute;inset:0;">
-                <div class="feed-grid"></div>
-                <div class="scan-line-feed"></div>
-                <svg width="100%" height="100%" viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;">
-                  <polygon points="0,0 280,0 210,60 70,60" fill="rgba(30,45,70,0.6)"/>
-                  <polygon points="0,200 280,200 210,140 70,140" fill="rgba(30,45,70,0.6)"/>
-                  <polygon points="0,0 70,60 70,140 0,200" fill="rgba(20,35,58,0.5)"/>
-                  <polygon points="280,0 210,60 210,140 280,200" fill="rgba(20,35,58,0.5)"/>
-                  <rect x="70" y="60" width="140" height="80" fill="rgba(25,40,64,0.8)" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
-                  <rect x="120" y="100" width="40" height="40" fill="rgba(15,25,40,0.9)" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
-                  <ellipse cx="140" cy="65" rx="12" ry="3" fill="rgba(255,220,150,0.12)"/>
-                  <ellipse cx="140" cy="65" rx="6" ry="1.5" fill="rgba(255,220,150,0.25)"/>
-                  <rect x="30" y="80" width="7" height="60" fill="rgba(100,70,30,0.45)"/>
-                  <rect x="243" y="70" width="7" height="70" fill="rgba(100,70,30,0.45)"/>
-                  <text x="140" y="190" fill="rgba(232,96,26,0.7)" font-size="9" text-anchor="middle" font-family="monospace">TARGET: 28.4 ft</text>
-                </svg>
-                <div class="crosshair">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="24" cy="24" r="20" stroke="rgba(232,96,26,0.4)" stroke-width="0.5"/>
-                    <circle cx="24" cy="24" r="10" stroke="rgba(232,96,26,0.6)" stroke-width="0.5"/>
-                    <line x1="24" y1="4" x2="24" y2="14" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-                    <line x1="24" y1="34" x2="24" y2="44" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-                    <line x1="4" y1="24" x2="14" y2="24" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-                    <line x1="34" y1="24" x2="44" y2="24" stroke="rgba(232,96,26,0.8)" stroke-width="1"/>
-                    <circle cx="24" cy="24" r="2" fill="#e8601a"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <div class="controls-panel">
-              <div class="ctrl-label">Manual adjust</div>
-              <div class="ctrl-grid">
-                <div style="grid-column:2;" class="ctrl-btn">↑</div>
-                <div class="ctrl-btn">←</div>
-                <div class="ctrl-btn center">HOME</div>
-                <div class="ctrl-btn">→</div>
-                <div class="ctrl-btn" style="grid-column:2;">↓</div>
-                <div class="ctrl-btn" style="font-size:13px;">▲ ALT</div>
-                <div class="ctrl-btn" style="font-size:13px;">▼ ALT</div>
-              </div>
-              <div class="ctrl-label" style="margin-top:4px;">Telemetry</div>
-              <div class="telemetry">
-                <div class="telem-card"><div class="telem-label">Altitude</div><div class="telem-val orange">8.2 ft</div></div>
-                <div class="telem-card"><div class="telem-label">Speed</div><div class="telem-val">0.4 m/s</div></div>
-                <div class="telem-card"><div class="telem-label">Signal</div><div class="telem-val green">Strong</div></div>
-                <div class="telem-card"><div class="telem-label">Battery</div><div class="telem-val orange">74%</div></div>
-              </div>
-            </div>
+          <div class="fp-footer">
+            <span class="fp-msg" id="fpMsg">Hover the floor plan — click any room to set destination</span>
+            <span class="fp-coords" id="fpCoords"></span>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="bottombar">
-          <div class="mission-info">Mission: <span>Zone C inspection</span> · ETA <span id="eta2">0:38</span> · Obstacle avoidance <span>active</span></div>
-          <button class="abort-btn">Abort mission</button>
+    <!-- SCREEN 2: LIVE FLIGHT -->
+    <div style="display:none;flex-direction:column;flex:1;" id="screenFlight">
+      <div class="app-topbar">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg width="26" height="26" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/><circle cx="50" cy="50" r="5" fill="#e8601a"/></svg>
+          <span class="app-logo-text">SitePilot<span>360</span></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.1em;color:#8a9ab5;text-transform:uppercase;" id="flightCrumb">Jones Commercial · Floor 2</span>
+          <div class="badge"><div class="badge-dot"></div><span class="badge-text" id="badgeTxt">Live</span></div>
+        </div>
+      </div>
+      <div class="flight-body">
+        <div class="feed-area">
+          <div class="scan-line" id="scanLine"></div>
+          <div class="feed-tl">
+            <div class="hud live"><div class="hud-dot"></div>LIVE &nbsp;<span id="recTime">00:00:00</span></div>
+            <div class="hud"><span style="color:#8a9ab5;font-size:8px;">STATUS</span>&nbsp;&nbsp;<span id="hudStatus" class="warn">NAVIGATING</span></div>
+            <div class="hud"><span style="color:#8a9ab5;font-size:8px;">ALT</span>&nbsp;&nbsp;<span>4.2 ft</span></div>
+          </div>
+          <div class="feed-tr">
+            <div class="hud"><span style="color:#8a9ab5;font-size:8px;">SIG</span>&nbsp;&nbsp;<span class="ok">STRONG</span></div>
+            <div class="hud"><span style="color:#8a9ab5;font-size:8px;">LAT</span>&nbsp;&nbsp;<span>42ms</span></div>
+            <div class="hud"><span style="color:#8a9ab5;font-size:8px;">BAT</span>&nbsp;&nbsp;<span class="ok">87%</span></div>
+          </div>
+          <!-- VIDEO FEED: swap src when clips are ready, remove poster to activate -->
+          <video id="droneVideo" autoplay muted loop playsinline
+            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;">
+            <!-- <source src="drone_flight.mp4" type="video/mp4"> -->
+          </video>
+          <!-- PLACEHOLDER: shown until video src is added -->
+          <div id="feedPlaceholder" style="position:absolute;inset:0;background:#0d1520;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="opacity:0.25;">
+              <rect x="4" y="10" width="40" height="28" rx="2" stroke="#8a9ab5" stroke-width="1.5"/>
+              <circle cx="24" cy="24" r="7" stroke="#8a9ab5" stroke-width="1.5"/>
+              <circle cx="24" cy="24" r="3" fill="#8a9ab5"/>
+              <line x1="4" y1="10" x2="44" y2="38" stroke="#8a9ab5" stroke-width="1" stroke-dasharray="3,3"/>
+              <line x1="44" y1="10" x2="4" y2="38" stroke="#8a9ab5" stroke-width="1" stroke-dasharray="3,3"/>
+            </svg>
+            <div style="font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(138,154,181,0.4);text-align:center;line-height:1.8;">Live Video Feed</div>
+            <div id="feedStatusTxt" style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(232,96,26,0.4);">NAVIGATING TO DESTINATION</div>
+          </div>
+        </div>
+        <div class="flight-panel">
+          <div class="fp-sec">
+            <div class="fp-sec-title">Flight Data</div>
+            <div class="mrow"><span class="mkey">Status</span><span class="mval warn" id="pStatus">NAVIGATING</span></div>
+            <div class="mrow"><span class="mkey">Altitude</span><span class="mval">4.2 ft</span></div>
+            <div class="mrow"><span class="mkey">Speed</span><span class="mval" id="pSpeed">1.2 m/s</span></div>
+            <div class="mrow"><span class="mkey">Battery</span><span class="mval ok">87%</span></div>
+            <div class="mrow"><span class="mkey">Avoidance</span><span class="mval ok">ACTIVE</span></div>
+          </div>
+          <div class="fp-sec" style="opacity:0.3;pointer-events:none;">
+            <div class="fp-sec-title">Camera Control</div>
+            <div class="ctrl-grid">
+              <div class="ctrl-btn">▲ Tilt Up</div><div class="ctrl-btn">▼ Tilt Dn</div>
+              <div class="ctrl-btn">◀ Pan L</div><div class="ctrl-btn">▶ Pan R</div>
+              <div class="ctrl-btn">⬆ Ascend</div><div class="ctrl-btn">⬇ Descend</div>
+            </div>
+          </div>
+          <div class="fp-sec" style="margin-top:auto;border-bottom:none;">
+            <button class="rth-btn" id="rthBtn" style="opacity:0.3;pointer-events:none;cursor:not-allowed;">⌂ &nbsp;RETURN TO HOME</button>
+            <button class="panic-btn" style="opacity:0.3;pointer-events:none;cursor:not-allowed;">⬛ &nbsp;EMERGENCY STOP</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="callouts">
-      <div class="callout">
-        <div class="callout-num">01</div>
-        <div class="callout-title">Tap to Navigate</div>
-        <p class="callout-desc">Select any point on the floor plan. The drone calculates a safe, wall-respecting path and flies there autonomously.</p>
+    <!-- SCREEN 3: LANDING -->
+    <div style="display:none;flex-direction:column;flex:1;" id="screenLanding">
+      <div class="app-topbar">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg width="26" height="26" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/><circle cx="50" cy="50" r="5" fill="#4ade80"/></svg>
+          <span class="app-logo-text">SitePilot<span>360</span></span>
+        </div>
+        <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;" id="landTopMsg">DRONE SECURED</span>
       </div>
-      <div class="callout">
-        <div class="callout-num">02</div>
-        <div class="callout-title">Live Feed Anywhere</div>
-        <p class="callout-desc">Watch real-time video on any device — phone, tablet, or laptop. Make micro-adjustments without a controller.</p>
-      </div>
-      <div class="callout">
-        <div class="callout-num">03</div>
-        <div class="callout-title">Obstacle Avoidance</div>
-        <p class="callout-desc">The drone stops automatically if a worker, ladder, or obstruction enters the flight path. Always on, always active.</p>
-      </div>
-      <div class="callout">
-        <div class="callout-num">04</div>
-        <div class="callout-title">Auto-documented</div>
-        <p class="callout-desc">Every flight is timestamped and saved. Progress records, safety logs, and dispute documentation — built in.</p>
+      <div class="landing-body">
+        <div class="landing-card">
+          <div class="land-icon" id="landIcon">✓</div>
+          <div class="land-title" id="landTitle">SAFE LANDING</div>
+          <div class="land-sub" id="landSub">DRONE DOCKED · MOTORS DISARMED</div>
+          <div class="land-detail" id="landDetail">Flight complete. Drone has returned to the charging station and motors are disarmed. Recording saved automatically.</div>
+          <button class="back-btn" onclick="goToDash()">Return to Dashboard</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 2: Sizzle Reel placeholder -->
-  <div class="demo-section reveal">
-    <div class="section-tag">Sizzle Reel</div>
-    <h2 class="demo-title">See The Full Vision</h2>
-    <p class="demo-desc">A full product concept video is coming soon — showing SitePilot360 in action from deployment to real-time inspection on an active jobsite.</p>
-    <div class="coming-soon">
-      <span class="coming-soon-icon">🎬</span>
-      <div class="coming-soon-title">Video Coming Soon</div>
-      <p class="coming-soon-desc">We're putting together a concept video that shows the full SitePilot360 workflow — from setup to live inspection. Register your interest to be notified when it drops.</p>
-      <a href="index.html#contact" class="notify-link">Notify Me</a>
-    </div>
-  </div>
-
-  <!-- SECTION 3: Real footage placeholder -->
-  <div class="demo-section reveal">
-    <div class="section-tag">Field Testing</div>
-    <h2 class="demo-title">Real World Footage</h2>
-    <p class="demo-desc">As we move through field testing and early deployments, real jobsite footage will appear here. This is where proof becomes undeniable.</p>
-    <div class="coming-soon">
-      <span class="coming-soon-icon">🚁</span>
-      <div class="coming-soon-title">Field Testing Underway</div>
-      <p class="coming-soon-desc">Our first real-world deployment footage will appear here. Early access partners will be the first to see it.</p>
-      <a href="index.html#contact" class="notify-link">Become An Early Partner</a>
-    </div>
-  </div>
-
-</div>
+</div><!-- page-main -->
 
 <!-- FOOTER -->
 <footer>
   <div>
     <div class="footer-logo">SitePilot<span>360</span></div>
-    <div style="margin-top:6px; font-family:'Roboto Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--gray);">Remote Eyes on Your Jobsite</div>
+    <div class="footer-tagline">Remote Eyes on Your Jobsite</div>
   </div>
   <div class="footer-copy">© 2026 SitePilot360. All rights reserved.</div>
 </footer>
 
 <script>
-  const drone2 = document.getElementById('drone2');
-  const etaEl2 = document.getElementById('eta2');
-  const targetPulse2 = document.getElementById('targetPulse2');
+// ── LOGIN SEQUENCE ──
+var USERNAME='j.rauch';
+var PASSWORD='SP360demo';
 
-  const waypoints2 = [
-    {x:120,y:300},{x:190,y:295},{x:230,y:295},{x:255,y:295},
-    {x:255,y:200},{x:255,y:130},{x:255,y:125},
-    {x:300,y:125},{x:330,y:125},{x:390,y:125}
-  ];
+function typeInto(el,text,delay,cb){
+  var i=0;
+  el.classList.add('active');
+  var t=setInterval(function(){
+    el.value+=text[i];
+    i++;
+    if(i>=text.length){clearInterval(t);el.classList.remove('active');el.classList.add('filled');if(cb)cb();}
+  },delay);
+}
 
-  let segIdx2=0, t2=0, etaSec2=38, lastEta2=0, arrived2=false;
-  const speed2=0.008;
+window.addEventListener('load',function(){
+  var uEl=document.getElementById('usernameInput');
+  var pEl=document.getElementById('passwordInput');
+  var btn=document.getElementById('signInBtn');
+  setTimeout(function(){
+    typeInto(uEl,USERNAME,90,function(){
+      setTimeout(function(){
+        typeInto(pEl,PASSWORD,80,function(){
+          setTimeout(function(){
+            btn.classList.add('clicking');
+            setTimeout(function(){
+              btn.classList.remove('clicking');
+              btn.classList.add('authenticating');
+              btn.innerHTML='<span class="auth-dots"><span class="auth-dot"></span><span class="auth-dot"></span><span class="auth-dot"></span></span>&nbsp; Authenticating...';
+              setTimeout(function(){
+                var ls=document.getElementById('loginScreen');
+                var as=document.getElementById('appScreen');
+                ls.style.transition='opacity 0.5s ease';
+                ls.style.opacity='0';
+                setTimeout(function(){
+                  ls.style.display='none';
+                  as.style.display='flex';
+                  setTimeout(function(){as.classList.add('visible');initFP();},50);
+                },500);
+              },1800);
+            },180);
+          },600);
+        });
+      },300);
+    });
+  },800);
+});
 
-  function lerp2(a,b,t){return a+(b-a)*t;}
+// ── APP LOGIC ──
+var VW=560,VH=420;
+var targetSvgX=27,targetSvgY=27;
+var targetSet=false,selRoom=null;
+var flightPhase='idle';
+var recSec=0,recInt=null;
 
-  function animate2(ts){
-    t2+=speed2;
-    if(t2>=1){
-      t2=0; segIdx2++;
-      if(segIdx2>=waypoints2.length-1){
-        arrived2=true;
-        setTimeout(()=>{segIdx2=0;t2=0;arrived2=false;etaSec2=38;},3000);
-        return;
-      }
-    }
-    if(!arrived2){
-      const a=waypoints2[segIdx2], b=waypoints2[segIdx2+1];
-      const x=lerp2(a.x,b.x,t2), y=lerp2(a.y,b.y,t2);
-      drone2.setAttribute('transform',`translate(${x},${y})`);
-      if(ts-lastEta2>600&&etaSec2>0){
-        etaSec2=Math.max(0,etaSec2-1);
-        const m=Math.floor(etaSec2/60), s=etaSec2%60;
-        etaEl2.textContent=`${m}:${s.toString().padStart(2,'0')}`;
-        lastEta2=ts;
-      }
-    }
-    requestAnimationFrame(animate2);
+var rooms=[
+  {id:'confA',x:20,y:20,w:170,h:140,name:'Conf Rm A',cx:105,cy:90},
+  {id:'office',x:200,y:20,w:130,h:140,name:'Office',cx:265,cy:90},
+  {id:'hall',x:20,y:170,w:310,h:80,name:'Hallway',cx:175,cy:213},
+  {id:'break',x:340,y:250,w:200,h:80,name:'Breakroom',cx:440,cy:293},
+  {id:'open',x:20,y:260,w:310,h:140,name:'Open Workspace',cx:175,cy:333}
+];
+var restricted=[{x:340,y:20,w:200,h:220}];
+
+function isRestricted(sx,sy){for(var i=0;i<restricted.length;i++){var z=restricted[i];if(sx>=z.x&&sx<=z.x+z.w&&sy>=z.y&&sy<=z.y+z.h)return true;}return false;}
+function getRoomAt(sx,sy){for(var i=0;i<rooms.length;i++){var r=rooms[i];if(sx>=r.x&&sx<=r.x+r.w&&sy>=r.y&&sy<=r.y+r.h)return r;}return null;}
+
+var fpArea,cursor,lastRoom=null;
+function initFP(){
+  fpArea=document.getElementById('fpArea');
+  cursor=document.getElementById('cursor');
+  fpArea.addEventListener('mousemove',onFPMove);
+  fpArea.addEventListener('mouseleave',function(){cursor.style.opacity='0';lastRoom=null;clearHighlights();});
+  fpArea.addEventListener('mouseenter',function(){cursor.style.opacity='1';});
+  fpArea.addEventListener('click',onFPClick);
+}
+function svgCoords(e){var rect=fpArea.getBoundingClientRect();return{x:(e.clientX-rect.left)/rect.width*VW,y:(e.clientY-rect.top)/rect.height*VH};}
+function onFPMove(e){
+  var rect=fpArea.getBoundingClientRect();
+  cursor.style.left=(e.clientX-rect.left)+'px';cursor.style.top=(e.clientY-rect.top)+'px';
+  var s=svgCoords(e);
+  var restr=isRestricted(s.x,s.y);var room=restr?null:getRoomAt(s.x,s.y);
+  var outer=cursor.querySelector('circle:nth-child(5)');var inner=cursor.querySelector('circle:nth-child(6)');
+  if(restr){if(outer)outer.style.stroke='#ef4444';if(inner)inner.style.fill='#ef4444';if(lastRoom){clearHighlights();lastRoom=null;}}
+  else if(room){if(outer)outer.style.stroke='#e8601a';if(inner)inner.style.fill='#e8601a';if(room!==lastRoom){clearHighlights();var hl=document.getElementById('hl-'+room.id);if(hl)hl.classList.add('visible');lastRoom=room;}}
+  else{if(outer)outer.style.stroke='#8a9ab5';if(inner)inner.style.fill='#8a9ab5';if(lastRoom){clearHighlights();lastRoom=null;}}
+}
+function clearHighlights(){rooms.forEach(function(r){if(r.id===selRoom)return;var hl=document.getElementById('hl-'+r.id);if(hl)hl.classList.remove('visible');});}
+function onFPClick(e){
+  var s=svgCoords(e);
+  if(isRestricted(s.x,s.y)){setMsg('⛔  No-fly zone — select a different destination','warn');return;}
+  var room=getRoomAt(s.x,s.y);if(!room){setMsg('Click inside a room to set destination','');return;}
+  selRoom=room.id;targetSvgX=room.cx;targetSvgY=room.cy;targetSet=true;
+  rooms.forEach(function(r){var hl=document.getElementById('hl-'+r.id);if(hl)hl.classList.remove('visible');});
+  var hl=document.getElementById('hl-'+room.id);if(hl)hl.classList.add('visible');
+  var glow=document.getElementById('selRoomGlow');glow.setAttribute('x',room.x);glow.setAttribute('y',room.y);glow.setAttribute('width',room.w);glow.setAttribute('height',room.h);glow.setAttribute('opacity','1');
+  var tg=document.getElementById('targetG');tg.setAttribute('opacity','1');tg.setAttribute('transform','translate('+room.cx+','+room.cy+')');
+  var pl=document.getElementById('pathLine');pl.setAttribute('x1',27);pl.setAttribute('y1',27);pl.setAttribute('x2',room.cx);pl.setAttribute('y2',room.cy);pl.setAttribute('opacity','0.5');
+  setMsg('✓  '+room.name+' selected — press GO LIVE to deploy','ok');
+  document.getElementById('fpCoords').textContent='→ '+room.name;
+  document.getElementById('glBtn').disabled=false;document.getElementById('glHint').textContent='Ready to deploy';
+}
+function setMsg(t,c){var el=document.getElementById('fpMsg');el.textContent=t;el.className='fp-msg'+(c?' '+c:'');}
+function selFloor(el,name){document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');document.getElementById('fpLabel').textContent=name+' \u00b7 Click to set destination';resetTarget();}
+function resetTarget(){targetSet=false;selRoom=null;document.getElementById('targetG').setAttribute('opacity','0');document.getElementById('pathLine').setAttribute('opacity','0');document.getElementById('selRoomGlow').setAttribute('opacity','0');clearHighlights();document.getElementById('glBtn').disabled=true;document.getElementById('glHint').textContent='Hover the floor plan to navigate';setMsg('Hover the floor plan — click any room to set destination','');document.getElementById('fpCoords').textContent='';}
+function goLive(){
+  if(!targetSet)return;
+  showAppScreen('screenFlight');flightPhase='navigating';recSec=0;
+  // Activate video feed if src is present
+  var vid=document.getElementById('droneVideo');
+  var placeholder=document.getElementById('feedPlaceholder');
+  if(vid && vid.querySelector('source')){
+    vid.style.display='block';
+    if(placeholder)placeholder.style.display='none';
+    vid.play();
   }
-
-  drone2.setAttribute('transform',`translate(${waypoints2[0].x},${waypoints2[0].y})`);
-
-  setInterval(()=>{
-    const r=targetPulse2.getAttribute('r');
-    targetPulse2.setAttribute('r',r==='14'?'18':'14');
-    targetPulse2.style.opacity=r==='14'?'0.5':'0.2';
-  },1000);
-
-  requestAnimationFrame(animate2);
-
-  const reveals=document.querySelectorAll('.reveal');
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-  },{threshold:0.1});
-  reveals.forEach(el=>obs.observe(el));
+  recInt=setInterval(function(){recSec++;var h=Math.floor(recSec/3600),m=Math.floor((recSec%3600)/60),s=recSec%60;var el=document.getElementById('recTime');if(el)el.textContent=p(h)+':'+p(m)+':'+p(s);},1000);
+  setTimeout(function(){if(flightPhase!=='navigating')return;flightPhase='onstation';setFlightState('ON STATION','ok','0.0 m/s','ON STATION — LIVE FEED ACTIVE','On Station');},3000);
+}
+function setFlightState(status,cls,speed,feedTxt,badge){document.getElementById('hudStatus').textContent=status;document.getElementById('hudStatus').className=cls;document.getElementById('pStatus').textContent=status;document.getElementById('pStatus').className='mval '+cls;document.getElementById('pSpeed').textContent=speed;document.getElementById('feedStatusTxt').textContent=feedTxt;document.getElementById('badgeTxt').textContent=badge||'Live';}
+function returnHome(){if(flightPhase==='idle'||flightPhase==='rth'||flightPhase==='panic')return;flightPhase='rth';setFlightState('RETURNING HOME','warn','1.0 m/s','RETURNING TO HOME — LIVE FEED ACTIVE','RTH Active');document.getElementById('rthBtn').disabled=true;setTimeout(function(){clearInterval(recInt);showLanding(false);},3500);}
+function panicStop(){if(flightPhase==='idle')return;flightPhase='panic';clearInterval(recInt);document.getElementById('scanLine').style.animationPlayState='paused';setFlightState('EMERGENCY STOP','danger','0.0 m/s','⚠ EMERGENCY STOP — DRONE HOLDING','Emergency');setTimeout(function(){showLanding(true);},2200);}
+function showLanding(isEmergency){
+  showAppScreen('screenLanding');
+  var icon=document.getElementById('landIcon'),title=document.getElementById('landTitle');
+  if(isEmergency){icon.textContent='!';icon.style.cssText='width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:500;background:rgba(251,191,36,0.1);border:2px solid #fbbf24;color:#fbbf24;';title.textContent='DRONE SECURED';title.style.color='#fbbf24';document.getElementById('landSub').textContent='EMERGENCY STOP · MOTORS DISARMED';document.getElementById('landDetail').textContent='Emergency stop executed. Drone held position and disarmed safely. Recording saved.';document.getElementById('landTopMsg').textContent='EMERGENCY STOP';document.getElementById('landTopMsg').style.color='#fbbf24';}
+  else{icon.textContent='✓';icon.style.cssText='width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:500;background:rgba(74,222,128,0.1);border:2px solid #4ade80;color:#4ade80;';title.textContent='SAFE LANDING';title.style.color='#4ade80';document.getElementById('landSub').textContent='DRONE DOCKED · MOTORS DISARMED';document.getElementById('landDetail').textContent='Flight complete. Drone has returned to the charging station and motors are disarmed. Recording saved automatically.';document.getElementById('landTopMsg').textContent='DRONE SECURED';document.getElementById('landTopMsg').style.color='#4ade80';}
+}
+function goToDash(){showAppScreen('screenDash');flightPhase='idle';recSec=0;resetTarget();document.getElementById('rthBtn').disabled=false;document.getElementById('scanLine').style.animationPlayState='running';document.getElementById('pStatus').className='mval warn';document.getElementById('pStatus').textContent='NAVIGATING';document.getElementById('hudStatus').textContent='NAVIGATING';document.getElementById('hudStatus').className='warn';document.getElementById('pSpeed').textContent='1.2 m/s';document.getElementById('feedStatusTxt').textContent='NAVIGATING TO DESTINATION';document.getElementById('recTime').textContent='00:00:00';}
+function showAppScreen(id){['screenDash','screenFlight','screenLanding'].forEach(function(s){var el=document.getElementById(s);el.style.display='none';});var el=document.getElementById(id);el.style.display='flex';}
+function p(n){return String(n).padStart(2,'0');}
 </script>
 </body>
 </html>
