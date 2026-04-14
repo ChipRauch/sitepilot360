@@ -353,7 +353,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
           <!-- VIDEO FEED: swap src when clips are ready, remove poster to activate -->
           <video id="droneVideo" autoplay muted loop playsinline
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;">
-            <!-- <source src="drone_flight.mp4" type="video/mp4"> -->
+            <source src="drone_flight.mp4" type="video/mp4">
           </video>
           <!-- PLACEHOLDER: shown until video src is added -->
           <div id="feedPlaceholder" style="position:absolute;inset:0;background:#0d1520;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
@@ -427,7 +427,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
 
 <script>
 // ── LOGIN SEQUENCE ──
-var USERNAME='j.rauch';
+var USERNAME='c.rauch';
 var PASSWORD='SP360demo';
 
 function typeInto(el,text,delay,cb){
