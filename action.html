@@ -232,6 +232,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
   </div>
 
   <!-- APP SCREEN -->
+  <a href="https://sitepilot360.com" id="videoEndBtn" style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:1px solid rgba(232,96,26,0.5);padding:14px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:auto;">← Return to SitePilot360</a>
   <div id="appScreen">
     <!-- SCREEN 1: DASHBOARD -->
     <div style="display:flex;flex-direction:column;flex:1;" id="screenDash">
@@ -351,7 +352,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
             <div class="hud"><span style="color:#8a9ab5;font-size:8px;">BAT</span>&nbsp;&nbsp;<span class="ok">87%</span></div>
           </div>
           <!-- VIDEO FEED: swap src when clips are ready, remove poster to activate -->
-          <video id="droneVideo" autoplay muted loop playsinline
+          <video id="droneVideo" autoplay muted playsinline
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;">
             <source src="drone_flight.mp4" type="video/mp4">
           </video>
@@ -533,13 +534,18 @@ function resetTarget(){targetSet=false;selRoom=null;document.getElementById('tar
 function goLive(){
   if(!targetSet)return;
   showAppScreen('screenFlight');flightPhase='navigating';recSec=0;
-  // Activate video feed if src is present
   var vid=document.getElementById('droneVideo');
   var placeholder=document.getElementById('feedPlaceholder');
   if(vid && vid.querySelector('source')){
     vid.style.display='block';
     if(placeholder)placeholder.style.display='none';
     vid.play();
+    vid.addEventListener('ended',function(){
+      setTimeout(function(){
+        var btn=document.getElementById('videoEndBtn');
+        if(btn)btn.style.opacity='1';
+      },3000);
+    },{once:true});
   }
   recInt=setInterval(function(){recSec++;var h=Math.floor(recSec/3600),m=Math.floor((recSec%3600)/60),s=recSec%60;var el=document.getElementById('recTime');if(el)el.textContent=p(h)+':'+p(m)+':'+p(s);},1000);
   setTimeout(function(){if(flightPhase!=='navigating')return;flightPhase='onstation';setFlightState('ON STATION','ok','0.0 m/s','ON STATION — LIVE FEED ACTIVE','On Station');},3000);
