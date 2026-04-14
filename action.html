@@ -135,6 +135,36 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
 @keyframes overlayIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes overlayOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
 
+/* DASHBOARD BANNER */
+.dash-banner{position:absolute;bottom:0;left:0;right:0;z-index:50;background:rgba(26,35,74,0.97);border-top:1px solid rgba(232,96,26,0.5);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;animation:overlayIn 0.6s ease forwards;pointer-events:none;}
+.dash-banner.fade-out{animation:overlayOut 0.6s ease forwards;}
+.dash-banner-left{display:flex;align-items:center;gap:10px;}
+.dash-banner-dot{width:7px;height:7px;background:#e8601a;border-radius:50%;animation:blink 1.2s ease-in-out infinite;flex-shrink:0;}
+.dash-banner-text{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#c8d0dc;}
+.dash-banner-text strong{color:#e8601a;}
+.dash-banner-hint{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8a9ab5;}
+
+/* ROOM SELECTED CALLOUT */
+.room-callout{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);z-index:51;background:rgba(17,24,39,0.97);border:1px solid #e8601a;padding:12px 20px;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity 0.4s ease;pointer-events:none;white-space:nowrap;}
+.room-callout.visible{opacity:1;}
+.room-callout-arrow{color:#e8601a;font-size:20px;animation:bounce 1s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.room-callout-text{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#fff;}
+.room-callout-text strong{color:#e8601a;}
+
+/* CONNECTING OVERLAY */
+.connect-overlay{position:absolute;inset:0;z-index:30;background:rgba(6,14,24,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;transition:opacity 0.4s ease;pointer-events:none;}
+.connect-overlay.visible{opacity:1;pointer-events:auto;}
+.connect-box{border:1px solid rgba(232,96,26,0.5);padding:20px 40px;display:flex;align-items:center;gap:14px;background:rgba(26,35,64,0.9);}
+.connect-label{font-family:'Roboto Mono',monospace;font-size:13px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#fff;animation:textblink 0.9s ease-in-out infinite;}
+.connect-label span{color:#e8601a;}
+@keyframes textblink{0%,100%{opacity:1}50%{opacity:0.4}}
+.connect-dots{display:flex;gap:6px;align-items:center;}
+.connect-dot{width:7px;height:7px;border-radius:50%;background:#e8601a;animation:dotpulse 1.2s ease-in-out infinite;}
+.connect-dot:nth-child(2){animation-delay:0.2s;}
+.connect-dot:nth-child(3){animation-delay:0.4s;}
+.connect-sub{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#8a9ab5;}
+
 /* VIDEO DISCLAIMER BADGE */
 .sim-badge{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:15;background:rgba(0,0,0,0.7);border:1px solid rgba(138,154,181,0.25);padding:5px 14px;display:flex;align-items:center;gap:7px;pointer-events:none;opacity:0;transition:opacity 0.8s ease;}
 .sim-badge.visible{opacity:1;}
@@ -254,10 +284,18 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
         <div class="fp-wrap">
           <div class="fp-area" id="fpArea">
             <div class="fp-label" id="fpLabel">Floor 2 — West Wing &nbsp;·&nbsp; Click to set destination</div>
-            <!-- DASHBOARD OVERLAY -->
-            <div class="overlay-tooltip" id="dashOverlay" style="bottom:24px;right:24px;">
-              <span class="overlay-arrow">↙</span>
-              <div class="overlay-text"><strong>Try It</strong>Hover the floor plan then click any room to set a drone destination</div>
+            <!-- ROOM SELECTED CALLOUT -->
+            <div class="room-callout" id="roomCallout">
+              <span class="room-callout-arrow">↓</span>
+              <div class="room-callout-text"><strong>Destination Set</strong> &nbsp;·&nbsp; Click GO LIVE to deploy SitePILOT and watch the live feed</div>
+            </div>
+            <!-- DASHBOARD BANNER -->
+            <div class="dash-banner" id="dashBanner">
+              <div class="dash-banner-left">
+                <div class="dash-banner-dot"></div>
+                <span class="dash-banner-text"><strong>Interactive Demo</strong> &nbsp;·&nbsp; Hover the floor plan then click any room to set a drone destination</span>
+              </div>
+              <span class="dash-banner-hint">Auto-dismisses on selection</span>
             </div>
             <svg id="cursor" width="32" height="32" viewBox="-16 -16 32 32" style="opacity:0;position:absolute;pointer-events:none;z-index:20;transform:translate(-50%,-50%);transition:opacity 0.15s;">
               <line x1="-13" y1="0" x2="-5" y2="0" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
@@ -350,6 +388,18 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
             style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:1px solid rgba(232,96,26,0.5);padding:14px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:none;">
             ← Return to SitePilot360
           </a>
+          <!-- CONNECTING OVERLAY -->
+          <div class="connect-overlay" id="connectOverlay">
+            <div class="connect-box">
+              <div class="connect-dots">
+                <div class="connect-dot"></div>
+                <div class="connect-dot"></div>
+                <div class="connect-dot"></div>
+              </div>
+              <div class="connect-label" id="connectLabel">Connecting to <span>SitePILOT</span>...</div>
+            </div>
+            <div class="connect-sub" id="connectSub">Establishing secure link</div>
+          </div>
           <!-- SIMULATION DISCLAIMER BADGE -->
           <div class="sim-badge" id="simBadge">
             <div class="sim-badge-icon"></div>
@@ -399,14 +449,14 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
           <svg width="26" height="26" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/><circle cx="50" cy="50" r="5" fill="#4ade80"/></svg>
           <span class="app-logo-text">SitePilot<span>360</span></span>
         </div>
-        <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;" id="landTopMsg">DRONE SECURED</span>
+        <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;" id="landTopMsg">SITEPILOT SECURED</span>
       </div>
       <div class="landing-body">
         <div class="landing-card">
           <div class="land-icon" id="landIcon">✓</div>
           <div class="land-title" id="landTitle">SAFE LANDING</div>
-          <div class="land-sub" id="landSub">DRONE DOCKED · MOTORS DISARMED</div>
-          <div class="land-detail" id="landDetail">Flight complete. Drone has returned to the charging station and motors are disarmed. Recording saved automatically.</div>
+          <div class="land-sub" id="landSub">SITEPILOT DOCKED · MOTORS DISARMED</div>
+          <div class="land-detail" id="landDetail">Flight complete. SitePILOT has returned to the charging station and motors are disarmed. Recording saved automatically.</div>
           <button class="back-btn" onclick="goToDash()">Return to Dashboard</button>
         </div>
       </div>
@@ -463,13 +513,13 @@ window.addEventListener('load',function(){
                   as.style.display='flex';
                   setTimeout(function(){
                     as.classList.add('visible');initFP();
-                    // Show dashboard overlay then auto-dismiss after 5s
-                    var dOverlay=document.getElementById('dashOverlay');
-                    if(dOverlay){
+                    // Auto-dismiss dashboard banner after 6s
+                    var dBanner=document.getElementById('dashBanner');
+                    if(dBanner){
                       setTimeout(function(){
-                        dOverlay.classList.add('fade-out');
-                        setTimeout(function(){dOverlay.style.display='none';},600);
-                      },5000);
+                        dBanner.classList.add('fade-out');
+                        setTimeout(function(){dBanner.style.display='none';},600);
+                      },6000);
                     }
                   },50);
                 },500);
@@ -533,6 +583,11 @@ function onFPClick(e){
   setMsg('✓  '+room.name+' selected — press GO LIVE to deploy','ok');
   document.getElementById('fpCoords').textContent='→ '+room.name;
   document.getElementById('glBtn').disabled=false;document.getElementById('glHint').textContent='Ready to deploy';
+  // Dismiss banner, show room callout
+  var dBanner=document.getElementById('dashBanner');
+  if(dBanner&&dBanner.style.display!=='none'){dBanner.classList.add('fade-out');setTimeout(function(){dBanner.style.display='none';},600);}
+  var callout=document.getElementById('roomCallout');
+  if(callout)callout.classList.add('visible');
 }
 function setMsg(t,c){var el=document.getElementById('fpMsg');el.textContent=t;el.className='fp-msg'+(c?' '+c:'');}
 function selFloor(el,name){document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');document.getElementById('fpLabel').textContent=name+' \u00b7 Click to set destination';resetTarget();}
@@ -541,26 +596,53 @@ function resetTarget(){targetSet=false;selRoom=null;document.getElementById('tar
 function goLive(){
   if(!targetSet)return;
   showAppScreen('screenFlight');flightPhase='navigating';recSec=0;
-  // Show sim badge
-  setTimeout(function(){
-    var badge=document.getElementById('simBadge');
-    if(badge)badge.classList.add('visible');
-  },800);
+  // Hide room callout
+  var callout=document.getElementById('roomCallout');
+  if(callout)callout.classList.remove('visible');
+
+  var connectOverlay=document.getElementById('connectOverlay');
+  var connectLabel=document.getElementById('connectLabel');
+  var connectSub=document.getElementById('connectSub');
   var vid=document.getElementById('droneVideo');
   var placeholder=document.getElementById('feedPlaceholder');
-  if(vid&&vid.querySelector('source')){
-    vid.style.display='block';
-    if(placeholder)placeholder.style.display='none';
-    vid.play();
-    vid.addEventListener('ended',function(){
-      setTimeout(function(){
-        var btn=document.getElementById('videoEndBtn');
-        if(btn){btn.style.opacity='1';btn.style.pointerEvents='auto';}
-      },3000);
-    },{once:true});
-  }
+
+  // Step 1 — show connecting overlay (scan line already animating behind it)
+  connectOverlay.classList.add('visible');
+
+  // Step 2 — switch to "Deploying" after 2s
+  setTimeout(function(){
+    connectLabel.innerHTML='Deploying <span style="color:#e8601a;">SitePILOT</span>...';
+    connectSub.textContent='Autonomous navigation active';
+  },2000);
+
+  // Step 3 — hide overlay, start video after 4s total
+  setTimeout(function(){
+    connectOverlay.style.transition='opacity 0.5s ease';
+    connectOverlay.style.opacity='0';
+    setTimeout(function(){
+      connectOverlay.classList.remove('visible');
+      connectOverlay.style.opacity='';
+      connectOverlay.style.transition='';
+      // Show sim badge
+      var badge=document.getElementById('simBadge');
+      if(badge)badge.classList.add('visible');
+      // Start video if present
+      if(vid&&vid.querySelector('source')){
+        vid.style.display='block';
+        if(placeholder)placeholder.style.display='none';
+        vid.play();
+        vid.addEventListener('ended',function(){
+          setTimeout(function(){
+            var btn=document.getElementById('videoEndBtn');
+            if(btn){btn.style.opacity='1';btn.style.pointerEvents='auto';}
+          },3000);
+        },{once:true});
+      }
+    },500);
+  },4000);
+
   recInt=setInterval(function(){recSec++;var h=Math.floor(recSec/3600),m=Math.floor((recSec%3600)/60),s=recSec%60;var el=document.getElementById('recTime');if(el)el.textContent=p(h)+':'+p(m)+':'+p(s);},1000);
-  setTimeout(function(){if(flightPhase!=='navigating')return;flightPhase='onstation';setFlightState('ON STATION','ok','0.0 m/s','ON STATION — LIVE FEED ACTIVE','On Station');},3000);
+  setTimeout(function(){if(flightPhase!=='navigating')return;flightPhase='onstation';setFlightState('ON STATION','ok','0.0 m/s','ON STATION — LIVE FEED ACTIVE','On Station');},5000);
 }
 function setFlightState(status,cls,speed,feedTxt,badge){document.getElementById('hudStatus').textContent=status;document.getElementById('hudStatus').className=cls;document.getElementById('pStatus').textContent=status;document.getElementById('pStatus').className='mval '+cls;document.getElementById('pSpeed').textContent=speed;document.getElementById('feedStatusTxt').textContent=feedTxt;document.getElementById('badgeTxt').textContent=badge||'Live';}
 function goToDash(){showAppScreen('screenDash');flightPhase='idle';recSec=0;resetTarget();document.getElementById('scanLine').style.animationPlayState='running';document.getElementById('pStatus').className='mval warn';document.getElementById('pStatus').textContent='NAVIGATING';document.getElementById('hudStatus').textContent='NAVIGATING';document.getElementById('hudStatus').className='warn';document.getElementById('pSpeed').textContent='1.2 m/s';document.getElementById('feedStatusTxt').textContent='NAVIGATING TO DESTINATION';document.getElementById('recTime').textContent='00:00:00';}
