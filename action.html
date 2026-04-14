@@ -125,6 +125,21 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
 .footer-logo span{color:#e8601a;}
 .footer-tagline{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#8a9ab5;}
 .footer-copy{font-size:12px;color:#8a9ab5;}
+
+/* OVERLAYS */
+.overlay-tooltip{position:absolute;z-index:50;display:flex;align-items:flex-start;gap:10px;background:rgba(17,24,39,0.92);border:1px solid rgba(232,96,26,0.4);padding:12px 16px;max-width:280px;animation:overlayIn 0.6s ease forwards;pointer-events:none;}
+.overlay-tooltip.fade-out{animation:overlayOut 0.6s ease forwards;}
+.overlay-arrow{color:#e8601a;font-size:18px;line-height:1;flex-shrink:0;margin-top:1px;}
+.overlay-text{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#c8d0dc;line-height:1.6;}
+.overlay-text strong{color:#e8601a;display:block;margin-bottom:3px;font-size:11px;}
+@keyframes overlayIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes overlayOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+
+/* VIDEO DISCLAIMER BADGE */
+.sim-badge{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:15;background:rgba(0,0,0,0.7);border:1px solid rgba(138,154,181,0.25);padding:5px 14px;display:flex;align-items:center;gap:7px;pointer-events:none;opacity:0;transition:opacity 0.8s ease;}
+.sim-badge.visible{opacity:1;}
+.sim-badge-icon{width:5px;height:5px;background:#fbbf24;border-radius:50%;flex-shrink:0;}
+.sim-badge-text{font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(200,208,220,0.7);}
 </style>
 </head>
 <body>
@@ -200,6 +215,11 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
       <div class="login-footer">
         <span class="login-footer-text">SitePilot360 · Secure Platform Access</span>
       </div>
+      <!-- LOGIN OVERLAY -->
+      <div class="overlay-tooltip" id="loginOverlay" style="bottom:40px;left:50%;transform:translateX(-50%);">
+        <span class="overlay-arrow">↑</span>
+        <div class="overlay-text"><strong>Interactive Demo</strong>Watch as the platform logs you in automatically — no action needed</div>
+      </div>
     </div>
   </div>
 
@@ -234,6 +254,11 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
         <div class="fp-wrap">
           <div class="fp-area" id="fpArea">
             <div class="fp-label" id="fpLabel">Floor 2 — West Wing &nbsp;·&nbsp; Click to set destination</div>
+            <!-- DASHBOARD OVERLAY -->
+            <div class="overlay-tooltip" id="dashOverlay" style="bottom:24px;right:24px;">
+              <span class="overlay-arrow">↙</span>
+              <div class="overlay-text"><strong>Try It</strong>Hover the floor plan then click any room to set a drone destination</div>
+            </div>
             <svg id="cursor" width="32" height="32" viewBox="-16 -16 32 32" style="opacity:0;position:absolute;pointer-events:none;z-index:20;transform:translate(-50%,-50%);transition:opacity 0.15s;">
               <line x1="-13" y1="0" x2="-5" y2="0" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
               <line x1="5" y1="0" x2="13" y2="0" style="stroke:#e8601a;stroke-width:0.8;opacity:0.5;"/>
@@ -325,6 +350,11 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
             style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:1px solid rgba(232,96,26,0.5);padding:14px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:none;">
             ← Return to SitePilot360
           </a>
+          <!-- SIMULATION DISCLAIMER BADGE -->
+          <div class="sim-badge" id="simBadge">
+            <div class="sim-badge-icon"></div>
+            <span class="sim-badge-text">AI-generated concept simulation &nbsp;·&nbsp; Not an actual SitePilot360 mission</span>
+          </div>
           <!-- PLACEHOLDER: shown until video is present -->
           <div id="feedPlaceholder" style="position:absolute;inset:0;background:#0d1520;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="opacity:0.25;">
@@ -420,6 +450,9 @@ window.addEventListener('load',function(){
               btn.classList.remove('clicking');
               btn.classList.add('authenticating');
               btn.innerHTML='<span class="auth-dots"><span class="auth-dot"></span><span class="auth-dot"></span><span class="auth-dot"></span></span>&nbsp; Authenticating...';
+              // Dismiss login overlay
+              var lOverlay=document.getElementById('loginOverlay');
+              if(lOverlay){lOverlay.classList.add('fade-out');setTimeout(function(){lOverlay.style.display='none';},600);}
               setTimeout(function(){
                 var ls=document.getElementById('loginScreen');
                 var as=document.getElementById('appScreen');
@@ -428,7 +461,17 @@ window.addEventListener('load',function(){
                 setTimeout(function(){
                   ls.style.display='none';
                   as.style.display='flex';
-                  setTimeout(function(){as.classList.add('visible');initFP();},50);
+                  setTimeout(function(){
+                    as.classList.add('visible');initFP();
+                    // Show dashboard overlay then auto-dismiss after 5s
+                    var dOverlay=document.getElementById('dashOverlay');
+                    if(dOverlay){
+                      setTimeout(function(){
+                        dOverlay.classList.add('fade-out');
+                        setTimeout(function(){dOverlay.style.display='none';},600);
+                      },5000);
+                    }
+                  },50);
                 },500);
               },1800);
             },180);
@@ -498,6 +541,11 @@ function resetTarget(){targetSet=false;selRoom=null;document.getElementById('tar
 function goLive(){
   if(!targetSet)return;
   showAppScreen('screenFlight');flightPhase='navigating';recSec=0;
+  // Show sim badge
+  setTimeout(function(){
+    var badge=document.getElementById('simBadge');
+    if(badge)badge.classList.add('visible');
+  },800);
   var vid=document.getElementById('droneVideo');
   var placeholder=document.getElementById('feedPlaceholder');
   if(vid&&vid.querySelector('source')){
