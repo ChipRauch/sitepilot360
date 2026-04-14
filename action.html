@@ -11,22 +11,15 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;width:100%;}
 body{font-family:'Barlow',sans-serif;background:#111827;color:#f0ede8;display:flex;flex-direction:column;min-height:100vh;}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(17,24,39,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(138,154,181,0.2);}
 .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
 .nav-logo-text{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:0.05em;color:#fff;}
 .nav-logo-text span{color:#e8601a;}
-.nav-links{display:flex;align-items:center;gap:20px;}
 .nav-link{font-family:'Roboto Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c8d0dc;text-decoration:none;transition:color 0.2s;}
 .nav-link:hover{color:#fff;}
 .nav-cta{font-family:'Roboto Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#e8601a;border:1px solid #e8601a;padding:9px 20px;text-decoration:none;transition:all 0.2s;}
 .nav-cta:hover{background:#e8601a;color:#fff;}
-
-/* MAIN WRAPPER */
 .page-main{flex:1;display:flex;flex-direction:column;padding-top:72px;}
-
-/* LOGIN SCREEN */
 #loginScreen{flex:1;display:flex;align-items:center;justify-content:center;background:#0d1520;position:relative;overflow:hidden;min-height:calc(100vh - 72px - 80px);}
 .login-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(138,154,181,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(138,154,181,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
 .login-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(232,96,26,0.06) 0%,transparent 70%);pointer-events:none;}
@@ -42,25 +35,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:72px;d
 .form-input{background:rgba(17,24,39,0.8);border:1px solid rgba(138,154,181,0.2);padding:14px 16px;font-family:'Roboto Mono',monospace;font-size:14px;color:#f0ede8;outline:none;transition:border-color 0.2s;width:100%;}
 .form-input:focus,.form-input.active{border-color:#e8601a;}
 .form-input.filled{border-color:rgba(232,96,26,0.4);}
-.sign-in-btn{margin-top:8px;padding:16px;background:#e8601a;border:none;cursor:pointer;font-family:'Roboto Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#fff;transition:all 0.15s;width:100%;position:relative;overflow:hidden;}
+.sign-in-btn{margin-top:8px;padding:16px;background:#e8601a;border:none;cursor:pointer;font-family:'Roboto Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:#fff;transition:all 0.15s;width:100%;}
 .sign-in-btn.clicking{background:#c04e12;transform:scale(0.98);box-shadow:inset 0 2px 8px rgba(0,0,0,0.3);}
 .sign-in-btn.authenticating{background:#1e2d4a;border:1px solid rgba(232,96,26,0.4);color:#e8601a;cursor:default;}
 .login-footer{margin-top:24px;text-align:center;}
 .login-footer-text{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#4a5568;}
-
-/* AUTH DOTS */
 .auth-dots{display:inline-flex;gap:6px;align-items:center;}
 .auth-dot{width:6px;height:6px;background:#e8601a;border-radius:50%;animation:dotpulse 1.2s ease-in-out infinite;}
 .auth-dot:nth-child(2){animation-delay:0.2s;}
 .auth-dot:nth-child(3){animation-delay:0.4s;}
 @keyframes dotpulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
-
-/* APP SCREEN */
 #appScreen{display:none;flex-direction:column;flex:1;opacity:0;transition:opacity 0.6s ease;min-height:calc(100vh - 72px - 80px);}
 #appScreen.visible{opacity:1;}
-
-/* APP UI */
-.sp{font-family:'Barlow',sans-serif;background:#111827;color:#f0ede8;display:flex;flex-direction:column;flex:1;}
 .app-topbar{background:#1a2340;border-bottom:1px solid rgba(138,154,181,0.2);display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:48px;flex-shrink:0;}
 .app-logo-text{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:16px;letter-spacing:0.05em;color:#fff;}
 .app-logo-text span{color:#e8601a;}
@@ -121,28 +107,19 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:72px;d
 .mval{font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;color:#c8d0dc;}
 .ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;}
 .ctrl-btn{padding:6px 3px;background:rgba(30,45,74,0.5);border:1px solid rgba(138,154,181,0.2);font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:0.06em;text-transform:uppercase;color:#8a9ab5;cursor:pointer;text-align:center;transition:all 0.2s;border-radius:2px;}
-.ctrl-btn:hover{border-color:rgba(232,96,26,0.5);color:#e8601a;background:rgba(232,96,26,0.08);}
 .rth-btn{width:100%;padding:10px;background:transparent;border:1px solid rgba(232,96,26,0.5);font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#e8601a;cursor:pointer;transition:all 0.2s;margin-bottom:5px;}
-.rth-btn:hover:not(:disabled){background:rgba(232,96,26,0.1);}
-.rth-btn:disabled{opacity:0.35;cursor:not-allowed;}
-.panic-btn{width:100%;padding:11px;background:#7f1d1d;border:1px solid #ef4444;font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#fca5a5;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:7px;}
-.panic-btn:hover{background:#991b1b;}
+.panic-btn{width:100%;padding:11px;background:#7f1d1d;border:1px solid #ef4444;font-family:'Roboto Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#fca5a5;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;}
 .landing-body{flex:1;display:flex;align-items:center;justify-content:center;background:#060e18;}
 .landing-card{text-align:center;padding:36px;max-width:320px;}
 .land-icon{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:500;}
 .land-title{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
 .land-sub{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#8a9ab5;margin-bottom:6px;}
 .land-detail{font-size:12px;color:#8a9ab5;margin-bottom:28px;line-height:1.65;}
-.back-btn{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#fff;background:#e8601a;border:none;padding:11px 26px;cursor:pointer;transition:background 0.2s;}
-.back-btn:hover{background:#f07a3a;}
-
-/* FLOATING RETURN BUTTON */
+.back-btn{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:#fff;background:#e8601a;border:none;padding:11px 26px;cursor:pointer;}
 .float-return{position:fixed;bottom:100px;right:24px;z-index:200;background:#1a2340;border:1px solid rgba(232,96,26,0.4);padding:10px 16px;display:flex;align-items:center;gap:8px;text-decoration:none;transition:all 0.2s;}
 .float-return:hover{background:rgba(232,96,26,0.12);border-color:#e8601a;}
 .float-return-icon{font-size:11px;color:#e8601a;}
 .float-return-text{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;}
-
-/* FOOTER */
 footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,181,0.15);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;flex-shrink:0;}
 .footer-logo{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:0.05em;color:#fff;}
 .footer-logo span{color:#e8601a;}
@@ -152,20 +129,17 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="42" height="42" viewBox="0 0 100 100" fill="none">
       <circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/>
       <circle cx="50" cy="50" r="38" stroke="#8a9ab5" stroke-width="0.5" opacity="0.2"/>
       <line x1="50" y1="50" x2="22" y2="22" stroke="#1a2340" stroke-width="6"/>
       <line x1="50" y1="50" x2="78" y2="22" stroke="#1a2340" stroke-width="6"/>
       <line x1="50" y1="50" x2="22" y2="78" stroke="#1a2340" stroke-width="6"/>
       <line x1="50" y1="50" x2="78" y2="78" stroke="#1a2340" stroke-width="6"/>
-      <circle cx="22" cy="22" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
-      <circle cx="78" cy="22" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
-      <circle cx="22" cy="78" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
-      <circle cx="78" cy="78" r="12" fill="#1a2340" stroke="#1a2340" stroke-width="2"/>
+      <circle cx="22" cy="22" r="12" fill="#1a2340"/><circle cx="78" cy="22" r="12" fill="#1a2340"/>
+      <circle cx="22" cy="78" r="12" fill="#1a2340"/><circle cx="78" cy="78" r="12" fill="#1a2340"/>
       <ellipse cx="22" cy="22" rx="10" ry="3" fill="#e8601a" transform="rotate(-45 22 22)"/>
       <ellipse cx="78" cy="22" rx="10" ry="3" fill="#e8601a" transform="rotate(45 78 22)"/>
       <ellipse cx="22" cy="78" rx="10" ry="3" fill="#e8601a" transform="rotate(45 22 78)"/>
@@ -182,15 +156,13 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
   </div>
 </nav>
 
-<!-- FLOATING RETURN BUTTON -->
-<a href="https://sitepilot360.com" class="float-return" id="floatReturn">
+<a href="https://sitepilot360.com" class="float-return">
   <span class="float-return-icon">←</span>
   <span class="float-return-text">sitepilot360.com</span>
 </a>
 
 <div class="page-main">
 
-  <!-- LOGIN SCREEN -->
   <div id="loginScreen">
     <div class="login-grid"></div>
     <div class="login-glow"></div>
@@ -231,20 +203,15 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
     </div>
   </div>
 
-  <!-- APP SCREEN -->
-  <a href="https://sitepilot360.com" id="videoEndBtn" style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:1px solid rgba(232,96,26,0.5);padding:14px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:auto;">← Return to SitePilot360</a>
   <div id="appScreen">
-    <!-- SCREEN 1: DASHBOARD -->
+
     <div style="display:flex;flex-direction:column;flex:1;" id="screenDash">
       <div class="app-topbar">
         <div style="display:flex;align-items:center;gap:10px;">
-          <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/>
-            <circle cx="50" cy="50" r="5" fill="#e8601a"/>
-          </svg>
+          <svg width="26" height="26" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="48" stroke="#8a9ab5" stroke-width="1" opacity="0.4"/><circle cx="50" cy="50" r="5" fill="#e8601a"/></svg>
           <span class="app-logo-text">SitePilot<span>360</span></span>
         </div>
-        <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#8a9ab5;text-transform:uppercase;">PM Dashboard · j.rauch@sitepilot360.com</span>
+        <span style="font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;color:#8a9ab5;text-transform:uppercase;">PM Dashboard · c.rauch@sitepilot360.com</span>
       </div>
       <div class="dash-body">
         <div class="sidebar">
@@ -254,9 +221,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
             <div class="proj-item"><div class="proj-name">Meridian Office Park</div><div class="proj-meta">3 floors · 54,000 sq ft</div></div>
             <div class="proj-item"><div class="proj-name">Harborview Retail</div><div class="proj-meta">1 floor · 28,000 sq ft</div></div>
           </div>
-          <div class="sidebar-section" style="padding-bottom:4px;">
-            <div class="sec-label">Floor Select</div>
-          </div>
+          <div class="sidebar-section" style="padding-bottom:4px;"><div class="sec-label">Floor Select</div></div>
           <div class="floor-btn sel" onclick="selFloor(this,'Floor 2 — West Wing')"><span class="floor-name">Floor 2 — West Wing</span><span class="floor-arr">▶</span></div>
           <div class="floor-btn" onclick="selFloor(this,'Floor 1 — Lobby')"><span class="floor-name">Floor 1 — Lobby</span><span class="floor-arr">▶</span></div>
           <div class="floor-btn" onclick="selFloor(this,'Floor 3 — Mezzanine')"><span class="floor-name">Floor 3 — Mezzanine</span><span class="floor-arr">▶</span></div>
@@ -326,7 +291,6 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
       </div>
     </div>
 
-    <!-- SCREEN 2: LIVE FLIGHT -->
     <div style="display:none;flex-direction:column;flex:1;" id="screenFlight">
       <div class="app-topbar">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -351,12 +315,17 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
             <div class="hud"><span style="color:#8a9ab5;font-size:8px;">LAT</span>&nbsp;&nbsp;<span>42ms</span></div>
             <div class="hud"><span style="color:#8a9ab5;font-size:8px;">BAT</span>&nbsp;&nbsp;<span class="ok">87%</span></div>
           </div>
-          <!-- VIDEO FEED: swap src when clips are ready, remove poster to activate -->
+          <!-- VIDEO FEED: put drone_flight.mp4 in same folder to activate -->
           <video id="droneVideo" autoplay muted playsinline
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;">
             <source src="drone_flight.mp4" type="video/mp4">
           </video>
-          <!-- PLACEHOLDER: shown until video src is added -->
+          <!-- END OF VIDEO BUTTON: fades in 3 seconds after video ends -->
+          <a href="https://sitepilot360.com" id="videoEndBtn"
+            style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:1px solid rgba(232,96,26,0.5);padding:14px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:none;">
+            ← Return to SitePilot360
+          </a>
+          <!-- PLACEHOLDER: shown until video is present -->
           <div id="feedPlaceholder" style="position:absolute;inset:0;background:#0d1520;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="opacity:0.25;">
               <rect x="4" y="10" width="40" height="28" rx="2" stroke="#8a9ab5" stroke-width="1.5"/>
@@ -387,14 +356,13 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
             </div>
           </div>
           <div class="fp-sec" style="margin-top:auto;border-bottom:none;">
-            <button class="rth-btn" id="rthBtn" style="opacity:0.3;pointer-events:none;cursor:not-allowed;">⌂ &nbsp;RETURN TO HOME</button>
+            <button class="rth-btn" style="opacity:0.3;pointer-events:none;cursor:not-allowed;">⌂ &nbsp;RETURN TO HOME</button>
             <button class="panic-btn" style="opacity:0.3;pointer-events:none;cursor:not-allowed;">⬛ &nbsp;EMERGENCY STOP</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SCREEN 3: LANDING -->
     <div style="display:none;flex-direction:column;flex:1;" id="screenLanding">
       <div class="app-topbar">
         <div style="display:flex;align-items:center;gap:10px;">
@@ -413,11 +381,11 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
         </div>
       </div>
     </div>
+
   </div>
 
-</div><!-- page-main -->
+</div>
 
-<!-- FOOTER -->
 <footer>
   <div>
     <div class="footer-logo">SitePilot<span>360</span></div>
@@ -427,16 +395,13 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
 </footer>
 
 <script>
-// ── LOGIN SEQUENCE ──
 var USERNAME='c.rauch';
 var PASSWORD='SP360demo';
 
 function typeInto(el,text,delay,cb){
-  var i=0;
-  el.classList.add('active');
+  var i=0;el.classList.add('active');
   var t=setInterval(function(){
-    el.value+=text[i];
-    i++;
+    el.value+=text[i];i++;
     if(i>=text.length){clearInterval(t);el.classList.remove('active');el.classList.add('filled');if(cb)cb();}
   },delay);
 }
@@ -474,13 +439,11 @@ window.addEventListener('load',function(){
   },800);
 });
 
-// ── APP LOGIC ──
 var VW=560,VH=420;
 var targetSvgX=27,targetSvgY=27;
 var targetSet=false,selRoom=null;
 var flightPhase='idle';
 var recSec=0,recInt=null;
-
 var rooms=[
   {id:'confA',x:20,y:20,w:170,h:140,name:'Conf Rm A',cx:105,cy:90},
   {id:'office',x:200,y:20,w:130,h:140,name:'Office',cx:265,cy:90},
@@ -531,19 +494,20 @@ function onFPClick(e){
 function setMsg(t,c){var el=document.getElementById('fpMsg');el.textContent=t;el.className='fp-msg'+(c?' '+c:'');}
 function selFloor(el,name){document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');document.getElementById('fpLabel').textContent=name+' \u00b7 Click to set destination';resetTarget();}
 function resetTarget(){targetSet=false;selRoom=null;document.getElementById('targetG').setAttribute('opacity','0');document.getElementById('pathLine').setAttribute('opacity','0');document.getElementById('selRoomGlow').setAttribute('opacity','0');clearHighlights();document.getElementById('glBtn').disabled=true;document.getElementById('glHint').textContent='Hover the floor plan to navigate';setMsg('Hover the floor plan — click any room to set destination','');document.getElementById('fpCoords').textContent='';}
+
 function goLive(){
   if(!targetSet)return;
   showAppScreen('screenFlight');flightPhase='navigating';recSec=0;
   var vid=document.getElementById('droneVideo');
   var placeholder=document.getElementById('feedPlaceholder');
-  if(vid && vid.querySelector('source')){
+  if(vid&&vid.querySelector('source')){
     vid.style.display='block';
     if(placeholder)placeholder.style.display='none';
     vid.play();
     vid.addEventListener('ended',function(){
       setTimeout(function(){
         var btn=document.getElementById('videoEndBtn');
-        if(btn)btn.style.opacity='1';
+        if(btn){btn.style.opacity='1';btn.style.pointerEvents='auto';}
       },3000);
     },{once:true});
   }
@@ -551,15 +515,7 @@ function goLive(){
   setTimeout(function(){if(flightPhase!=='navigating')return;flightPhase='onstation';setFlightState('ON STATION','ok','0.0 m/s','ON STATION — LIVE FEED ACTIVE','On Station');},3000);
 }
 function setFlightState(status,cls,speed,feedTxt,badge){document.getElementById('hudStatus').textContent=status;document.getElementById('hudStatus').className=cls;document.getElementById('pStatus').textContent=status;document.getElementById('pStatus').className='mval '+cls;document.getElementById('pSpeed').textContent=speed;document.getElementById('feedStatusTxt').textContent=feedTxt;document.getElementById('badgeTxt').textContent=badge||'Live';}
-function returnHome(){if(flightPhase==='idle'||flightPhase==='rth'||flightPhase==='panic')return;flightPhase='rth';setFlightState('RETURNING HOME','warn','1.0 m/s','RETURNING TO HOME — LIVE FEED ACTIVE','RTH Active');document.getElementById('rthBtn').disabled=true;setTimeout(function(){clearInterval(recInt);showLanding(false);},3500);}
-function panicStop(){if(flightPhase==='idle')return;flightPhase='panic';clearInterval(recInt);document.getElementById('scanLine').style.animationPlayState='paused';setFlightState('EMERGENCY STOP','danger','0.0 m/s','⚠ EMERGENCY STOP — DRONE HOLDING','Emergency');setTimeout(function(){showLanding(true);},2200);}
-function showLanding(isEmergency){
-  showAppScreen('screenLanding');
-  var icon=document.getElementById('landIcon'),title=document.getElementById('landTitle');
-  if(isEmergency){icon.textContent='!';icon.style.cssText='width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:500;background:rgba(251,191,36,0.1);border:2px solid #fbbf24;color:#fbbf24;';title.textContent='DRONE SECURED';title.style.color='#fbbf24';document.getElementById('landSub').textContent='EMERGENCY STOP · MOTORS DISARMED';document.getElementById('landDetail').textContent='Emergency stop executed. Drone held position and disarmed safely. Recording saved.';document.getElementById('landTopMsg').textContent='EMERGENCY STOP';document.getElementById('landTopMsg').style.color='#fbbf24';}
-  else{icon.textContent='✓';icon.style.cssText='width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:500;background:rgba(74,222,128,0.1);border:2px solid #4ade80;color:#4ade80;';title.textContent='SAFE LANDING';title.style.color='#4ade80';document.getElementById('landSub').textContent='DRONE DOCKED · MOTORS DISARMED';document.getElementById('landDetail').textContent='Flight complete. Drone has returned to the charging station and motors are disarmed. Recording saved automatically.';document.getElementById('landTopMsg').textContent='DRONE SECURED';document.getElementById('landTopMsg').style.color='#4ade80';}
-}
-function goToDash(){showAppScreen('screenDash');flightPhase='idle';recSec=0;resetTarget();document.getElementById('rthBtn').disabled=false;document.getElementById('scanLine').style.animationPlayState='running';document.getElementById('pStatus').className='mval warn';document.getElementById('pStatus').textContent='NAVIGATING';document.getElementById('hudStatus').textContent='NAVIGATING';document.getElementById('hudStatus').className='warn';document.getElementById('pSpeed').textContent='1.2 m/s';document.getElementById('feedStatusTxt').textContent='NAVIGATING TO DESTINATION';document.getElementById('recTime').textContent='00:00:00';}
+function goToDash(){showAppScreen('screenDash');flightPhase='idle';recSec=0;resetTarget();document.getElementById('scanLine').style.animationPlayState='running';document.getElementById('pStatus').className='mval warn';document.getElementById('pStatus').textContent='NAVIGATING';document.getElementById('hudStatus').textContent='NAVIGATING';document.getElementById('hudStatus').className='warn';document.getElementById('pSpeed').textContent='1.2 m/s';document.getElementById('feedStatusTxt').textContent='NAVIGATING TO DESTINATION';document.getElementById('recTime').textContent='00:00:00';}
 function showAppScreen(id){['screenDash','screenFlight','screenLanding'].forEach(function(s){var el=document.getElementById(s);el.style.display='none';});var el=document.getElementById(id);el.style.display='flex';}
 function p(n){return String(n).padStart(2,'0');}
 </script>
