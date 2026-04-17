@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>See It In Action — SitePilot360</title>
+<title>Flight Deck — SitePilot360</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -87,8 +87,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 40px;height:72px;d
 #cursor{position:absolute;pointer-events:none;z-index:20;transform:translate(-50%,-50%);transition:opacity 0.15s;}
 .room-highlight{fill:rgba(232,96,26,0.18);stroke:#e8601a;stroke-width:1.5;opacity:0;transition:opacity 0.3s;}
 .room-highlight.visible{opacity:1;}
-.flight-body{display:flex;flex:1;overflow:hidden;min-height:0;}
-.feed-area{position:relative;background:#060e18;flex:1;overflow:hidden;}
+.flight-body{display:flex;flex:1;overflow:hidden;min-height:0;height:100%;}
+.feed-area{position:relative;background:#060e18;flex:1;overflow:hidden;min-height:0;}
 .scan-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(232,96,26,0.5),transparent);animation:scan 2.8s ease-in-out infinite;pointer-events:none;}
 @keyframes scan{0%{top:10%;opacity:0}8%{opacity:1}92%{opacity:0.6}100%{top:90%;opacity:0}}
 .feed-tl{position:absolute;top:12px;left:14px;display:flex;flex-direction:column;gap:4px;z-index:5;}
@@ -143,6 +143,26 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
 .dash-banner-text{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#c8d0dc;}
 .dash-banner-text strong{color:#e8601a;}
 .dash-banner-hint{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#8a9ab5;}
+
+.back-proj-btn{margin:10px 8px 6px;padding:8px 12px;background:rgba(17,24,39,0.4);border:1px solid rgba(138,154,181,0.2);display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s;}
+.back-proj-btn:hover{border-color:rgba(232,96,26,0.4);background:rgba(232,96,26,0.06);}
+.back-proj-btn-text{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#8a9ab5;}
+.back-proj-btn:hover .back-proj-btn-text{color:#e8601a;}
+.back-proj-btn-icon{font-size:10px;color:#8a9ab5;}
+.back-proj-btn:hover .back-proj-btn-icon{color:#e8601a;}
+
+/* STEP STATE PANEL */
+.step-panel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;background:#0d1520;z-index:5;transition:opacity 0.4s ease;}
+.step-panel.hidden{opacity:0;pointer-events:none;}
+.step-number{font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:#e8601a;}
+.step-instruction{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:28px;text-transform:uppercase;letter-spacing:0.05em;color:#fff;text-align:center;line-height:1.1;}
+.step-instruction span{color:#e8601a;}
+.step-arrow{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.step-arrow-line{width:1px;height:40px;background:linear-gradient(180deg,rgba(232,96,26,0.6),transparent);}
+.step-arrow-head{width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid rgba(232,96,26,0.6);}
+.step-hint{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#8a9ab5;}
+/* step panel grid background */
+.step-panel::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(138,154,181,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(138,154,181,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
 
 /* ROOM SELECTED CALLOUT */
 .room-callout{position:absolute;bottom:70px;left:50%;transform:translateX(-50%);z-index:51;background:rgba(17,24,39,0.97);border:1px solid #e8601a;padding:12px 20px;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity 0.4s ease;pointer-events:none;white-space:nowrap;}
@@ -265,35 +285,76 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
       </div>
       <div class="dash-body">
         <div class="sidebar">
-          <div class="sidebar-section">
-            <div class="sec-label">Active Projects</div>
-            <div class="proj-item active"><div class="proj-name">Jones Commercial</div><div class="proj-meta">8 floors · 142,000 sq ft</div></div>
-            <div class="proj-item"><div class="proj-name">Meridian Office Park</div><div class="proj-meta">3 floors · 54,000 sq ft</div></div>
-            <div class="proj-item"><div class="proj-name">Harborview Retail</div><div class="proj-meta">1 floor · 28,000 sq ft</div></div>
+          <!-- PROJECT LIST (step 1) -->
+          <div id="projectListSection">
+            <div class="sidebar-section">
+              <div class="sec-label">Active Projects</div>
+              <div class="proj-item" onclick="selectProject(this)"><div class="proj-name">Jones Commercial</div><div class="proj-meta">8 floors · 142,000 sq ft</div></div>
+              <div class="proj-item" onclick="selectProject(this)"><div class="proj-name">Meridian Office Park</div><div class="proj-meta">3 floors · 54,000 sq ft</div></div>
+              <div class="proj-item" onclick="selectProject(this)"><div class="proj-name">Harborview Retail</div><div class="proj-meta">1 floor · 28,000 sq ft</div></div>
+            </div>
           </div>
-          <div class="sidebar-section" style="padding-bottom:4px;"><div class="sec-label">Floor Select</div></div>
-          <div class="floor-btn sel" onclick="selFloor(this,'Floor 2 — West Wing')"><span class="floor-name">Floor 2 — West Wing</span><span class="floor-arr">▶</span></div>
-          <div class="floor-btn" onclick="selFloor(this,'Floor 1 — Lobby')"><span class="floor-name">Floor 1 — Lobby</span><span class="floor-arr">▶</span></div>
-          <div class="floor-btn" onclick="selFloor(this,'Floor 3 — Mezzanine')"><span class="floor-name">Floor 3 — Mezzanine</span><span class="floor-arr">▶</span></div>
-          <div class="floor-btn" onclick="selFloor(this,'Basement — Mechanical')"><span class="floor-name">Basement — Mechanical</span><span class="floor-arr">▶</span></div>
-          <div class="gl-wrap">
-            <button class="gl-btn" id="glBtn" onclick="goLive()" disabled><span>▶</span><span>GO LIVE</span></button>
-            <div class="gl-hint" id="glHint">Hover the floor plan to navigate</div>
+          <!-- FLOOR LIST (step 2+) -->
+          <div id="floorListSection" style="display:none;flex-direction:column;flex:1;">
+            <div class="back-proj-btn" onclick="backToProjects()">
+              <span class="back-proj-btn-icon">←</span>
+              <span class="back-proj-btn-text">Project List</span>
+            </div>
+            <div class="sidebar-section" style="padding-top:8px;padding-bottom:4px;">
+              <div class="sec-label" id="selectedProjectLabel">Jones Commercial</div>
+            </div>
+            <div class="sidebar-section" style="padding-bottom:4px;"><div class="sec-label">Floor Select</div></div>
+            <div class="floor-btn sel" onclick="selFloor(this,'Floor 2 — West Wing')"><span class="floor-name">Floor 2 — West Wing</span><span class="floor-arr">▶</span></div>
+            <div class="floor-btn" onclick="selFloor(this,'Floor 1 — Lobby')"><span class="floor-name">Floor 1 — Lobby</span><span class="floor-arr">▶</span></div>
+            <div class="floor-btn" onclick="selFloor(this,'Floor 3 — Mezzanine')"><span class="floor-name">Floor 3 — Mezzanine</span><span class="floor-arr">▶</span></div>
+            <div class="floor-btn" onclick="selFloor(this,'Basement — Mechanical')"><span class="floor-name">Basement — Mechanical</span><span class="floor-arr">▶</span></div>
+            <div class="gl-wrap">
+              <button class="gl-btn" id="glBtn" onclick="goLive()" disabled><span>▶</span><span>GO LIVE</span></button>
+              <div class="gl-hint" id="glHint">Select a floor above</div>
+            </div>
           </div>
         </div>
         <div class="fp-wrap">
           <div class="fp-area" id="fpArea">
-            <div class="fp-label" id="fpLabel">Floor 2 — West Wing &nbsp;·&nbsp; Click to set destination</div>
-            <!-- ROOM SELECTED CALLOUT -->
+            <div class="fp-label" id="fpLabel" style="display:none;">Floor 2 — West Wing &nbsp;·&nbsp; Click to set destination</div>
+
+            <!-- STEP 1: No project selected -->
+            <div class="step-panel" id="step1">
+              <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px;">
+                <div class="step-number">Step 01</div>
+                <div class="step-instruction">Choose an<br><span>Active Project</span></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;transform:rotate(90deg);margin-top:8px;">
+                  <div style="width:1px;height:40px;background:linear-gradient(180deg,rgba(232,96,26,0.6),transparent);"></div>
+                  <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid rgba(232,96,26,0.6);"></div>
+                </div>
+                <div class="step-hint">Select from the project list on the left</div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Project selected, no floor -->
+            <div class="step-panel hidden" id="step2">
+              <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px;">
+                <div class="step-number">Step 02</div>
+                <div class="step-instruction">Select a<br><span>Floor Plan</span></div>
+                <div style="display:flex;flex-direction:column;align-items:center;gap:4px;transform:rotate(90deg);margin-top:8px;">
+                  <div style="width:1px;height:40px;background:linear-gradient(180deg,rgba(232,96,26,0.6),transparent);"></div>
+                  <div style="width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid rgba(232,96,26,0.6);"></div>
+                </div>
+                <div class="step-hint">Choose a floor from the sidebar</div>
+              </div>
+            </div>
+
+            <!-- ROOM SELECTED CALLOUT (Step 4) -->
             <div class="room-callout" id="roomCallout">
               <span class="room-callout-arrow">↓</span>
-              <div class="room-callout-text"><strong>Destination Set</strong> &nbsp;·&nbsp; Click GO LIVE to deploy SitePILOT and watch the live feed</div>
+              <div class="room-callout-text"><strong>Destination Set</strong> &nbsp;·&nbsp; Click GO LIVE to connect and deploy SitePILOT</div>
             </div>
-            <!-- DASHBOARD BANNER -->
-            <div class="dash-banner" id="dashBanner">
+
+            <!-- STEP 3 BANNER: Floor plan visible, select area -->
+            <div class="dash-banner hidden" id="dashBanner">
               <div class="dash-banner-left">
                 <div class="dash-banner-dot"></div>
-                <span class="dash-banner-text"><strong>Interactive Demo</strong> &nbsp;·&nbsp; Hover the floor plan then click any room to set a drone destination</span>
+                <span class="dash-banner-text"><strong>Step 03</strong> &nbsp;·&nbsp; Hover the floor plan then click any area to set a SitePILOT destination</span>
               </div>
               <span class="dash-banner-hint">Auto-dismisses on selection</span>
             </div>
@@ -305,7 +366,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
               <circle r="8" style="fill:none;stroke:#e8601a;stroke-width:1.2;opacity:0.7;"/>
               <circle r="2.5" style="fill:#e8601a;opacity:0.9;"/>
             </svg>
-            <svg id="fpSvg" style="position:absolute;inset:0;width:100%;height:100%;display:block;" viewBox="0 0 560 420" preserveAspectRatio="xMidYMid meet">
+            <svg id="fpSvg" style="position:absolute;inset:0;width:100%;height:100%;display:none;" viewBox="0 0 560 420" preserveAspectRatio="xMidYMid meet">
               <defs>
                 <pattern id="hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
                   <line x1="0" y1="0" x2="0" y2="8" stroke="rgba(239,68,68,0.3)" stroke-width="2.5"/>
@@ -385,7 +446,7 @@ footer{padding:28px 40px;background:#111827;border-top:1px solid rgba(138,154,18
           </video>
           <!-- END OF VIDEO BUTTON: fades in 3 seconds after video ends -->
           <a href="https://sitepilot360.com" id="videoEndBtn"
-            style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:1px solid rgba(232,96,26,0.5);padding:14px 28px;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#e8601a;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:none;">
+            style="position:absolute;top:32px;left:50%;transform:translateX(-50%);z-index:20;background:#1a2340;border:2px solid #e8601a;padding:16px 36px;font-family:'Roboto Mono',monospace;font-size:13px;letter-spacing:0.15em;text-transform:uppercase;color:#fff;text-decoration:none;opacity:0;transition:opacity 0.8s ease;pointer-events:none;box-shadow:0 0 24px rgba(232,96,26,0.4);">
             ← Return to SitePilot360
           </a>
           <!-- CONNECTING OVERLAY -->
@@ -550,9 +611,43 @@ function isRestricted(sx,sy){for(var i=0;i<restricted.length;i++){var z=restrict
 function getRoomAt(sx,sy){for(var i=0;i<rooms.length;i++){var r=rooms[i];if(sx>=r.x&&sx<=r.x+r.w&&sy>=r.y&&sy<=r.y+r.h)return r;}return null;}
 
 var fpArea,cursor,lastRoom=null;
+function selectProject(el){
+  var name=el.querySelector('.proj-name').textContent;
+  // Switch sidebar to floor list
+  document.getElementById('projectListSection').style.display='none';
+  var fls=document.getElementById('floorListSection');
+  fls.style.display='flex';
+  document.getElementById('selectedProjectLabel').textContent=name;
+  // Advance to step 2
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('step2').classList.remove('hidden');
+  // Reset floor/floorplan
+  document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});
+  document.getElementById('fpSvg').style.display='none';
+  document.getElementById('fpLabel').style.display='none';
+  var dBanner=document.getElementById('dashBanner');
+  dBanner.classList.add('hidden');dBanner.style.display='';dBanner.classList.remove('fade-out');
+  resetTarget();
+}
+
+function backToProjects(){
+  // Switch sidebar back to project list
+  document.getElementById('projectListSection').style.display='block';
+  document.getElementById('floorListSection').style.display='none';
+  // Reset to step 1
+  document.getElementById('step1').classList.remove('hidden');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('fpSvg').style.display='none';
+  document.getElementById('fpLabel').style.display='none';
+  var dBanner=document.getElementById('dashBanner');
+  dBanner.classList.add('hidden');dBanner.style.display='';dBanner.classList.remove('fade-out');
+  resetTarget();
+}
+
 function initFP(){
   fpArea=document.getElementById('fpArea');
   cursor=document.getElementById('cursor');
+  cursor.style.opacity='1';
   fpArea.addEventListener('mousemove',onFPMove);
   fpArea.addEventListener('mouseleave',function(){cursor.style.opacity='0';lastRoom=null;clearHighlights();});
   fpArea.addEventListener('mouseenter',function(){cursor.style.opacity='1';});
@@ -590,7 +685,27 @@ function onFPClick(e){
   if(callout)callout.classList.add('visible');
 }
 function setMsg(t,c){var el=document.getElementById('fpMsg');el.textContent=t;el.className='fp-msg'+(c?' '+c:'');}
-function selFloor(el,name){document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});el.classList.add('sel');document.getElementById('fpLabel').textContent=name+' \u00b7 Click to set destination';resetTarget();}
+function selFloor(el,name){
+  document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});
+  el.classList.add('sel');
+  document.getElementById('fpLabel').textContent=name+' \u00b7 Click to set destination';
+  document.getElementById('fpLabel').style.display='block';
+  // Advance to step 3 — show floor plan
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('fpSvg').style.display='block';
+  // Show step 3 banner
+  var dBanner=document.getElementById('dashBanner');
+  dBanner.classList.remove('hidden');
+  // Auto-dismiss banner after 6s
+  setTimeout(function(){
+    if(!dBanner.classList.contains('hidden')){
+      dBanner.classList.add('fade-out');
+      setTimeout(function(){dBanner.style.display='none';},600);
+    }
+  },6000);
+  resetTarget();
+}
 function resetTarget(){targetSet=false;selRoom=null;document.getElementById('targetG').setAttribute('opacity','0');document.getElementById('pathLine').setAttribute('opacity','0');document.getElementById('selRoomGlow').setAttribute('opacity','0');clearHighlights();document.getElementById('glBtn').disabled=true;document.getElementById('glHint').textContent='Hover the floor plan to navigate';setMsg('Hover the floor plan — click any room to set destination','');document.getElementById('fpCoords').textContent='';}
 
 function goLive(){
@@ -645,7 +760,26 @@ function goLive(){
   setTimeout(function(){if(flightPhase!=='navigating')return;flightPhase='onstation';setFlightState('ON STATION','ok','0.0 m/s','ON STATION — LIVE FEED ACTIVE','On Station');},5000);
 }
 function setFlightState(status,cls,speed,feedTxt,badge){document.getElementById('hudStatus').textContent=status;document.getElementById('hudStatus').className=cls;document.getElementById('pStatus').textContent=status;document.getElementById('pStatus').className='mval '+cls;document.getElementById('pSpeed').textContent=speed;document.getElementById('feedStatusTxt').textContent=feedTxt;document.getElementById('badgeTxt').textContent=badge||'Live';}
-function goToDash(){showAppScreen('screenDash');flightPhase='idle';recSec=0;resetTarget();document.getElementById('scanLine').style.animationPlayState='running';document.getElementById('pStatus').className='mval warn';document.getElementById('pStatus').textContent='NAVIGATING';document.getElementById('hudStatus').textContent='NAVIGATING';document.getElementById('hudStatus').className='warn';document.getElementById('pSpeed').textContent='1.2 m/s';document.getElementById('feedStatusTxt').textContent='NAVIGATING TO DESTINATION';document.getElementById('recTime').textContent='00:00:00';}
+function goToDash(){
+  showAppScreen('screenDash');flightPhase='idle';recSec=0;resetTarget();
+  document.getElementById('scanLine').style.animationPlayState='running';
+  document.getElementById('pStatus').className='mval warn';document.getElementById('pStatus').textContent='NAVIGATING';
+  document.getElementById('hudStatus').textContent='NAVIGATING';document.getElementById('hudStatus').className='warn';
+  document.getElementById('pSpeed').textContent='1.2 m/s';
+  document.getElementById('feedStatusTxt').textContent='NAVIGATING TO DESTINATION';
+  document.getElementById('recTime').textContent='00:00:00';
+  // Reset sidebar to project list
+  document.getElementById('projectListSection').style.display='block';
+  document.getElementById('floorListSection').style.display='none';
+  // Reset to step 1
+  document.getElementById('step1').classList.remove('hidden');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('fpSvg').style.display='none';
+  document.getElementById('fpLabel').style.display='none';
+  document.querySelectorAll('.floor-btn').forEach(function(b){b.classList.remove('sel');});
+  var dBanner=document.getElementById('dashBanner');
+  dBanner.classList.add('hidden');dBanner.style.display='';dBanner.classList.remove('fade-out');
+}
 function showAppScreen(id){['screenDash','screenFlight','screenLanding'].forEach(function(s){var el=document.getElementById(s);el.style.display='none';});var el=document.getElementById(id);el.style.display='flex';}
 function p(n){return String(n).padStart(2,'0');}
 </script>
